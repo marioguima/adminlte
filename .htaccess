@@ -20,8 +20,5 @@ RewriteRule ^ index.php [L]
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_URI} !^/public/
-<<<<<<< HEAD
+
 RewriteRule ^(css|js|images)/(.*)$ public/$1/$2 [L,NC]
-=======
-RewriteRule ^(css|js|images)/(.*)$ public/$1/$2 [L,NC]
->>>>>>> b5d87393c67abfed1ace0368d60780ce63cb675e
