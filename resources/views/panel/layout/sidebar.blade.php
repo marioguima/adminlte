@@ -1,9 +1,9 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4 sidebar-dark-lightblue">
     <!-- Brand Logo -->
     <a href="{{ route('panel.index') }}" class="brand-link">
-        <img src="public/dist/img/AdminLTELogo.png" alt="Automation Logo"
+        <img src="public/dist/img/logoRedirect.png" alt="Redirect Logo"
             class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">Automation</span>
+        <span class="brand-text font-weight-light">Redirect</span>
     </a>
 
     <!-- Sidebar -->
