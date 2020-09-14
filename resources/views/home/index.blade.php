@@ -25,7 +25,7 @@
             @if (Route::has('login'))
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     @auth
-                        <a href="{{ route('panel.index') }}" class="text-sm text-gray-700 underline">Painel</a>
+                        <a href="{{ route('panel.show') }}" class="text-sm text-gray-700 underline">Painel</a>
                     @else
                         <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Acessar</a>
 
