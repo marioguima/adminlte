@@ -7,6 +7,33 @@ use Illuminate\Http\Request;
 
 class CampaignController extends Controller
 {
+    public $request;
+    protected $model;
+
+    public function __construct(Request $request, Campaign $model)
+    {
+        $this->middleware('auth');
+        $this->request = $request;
+        $this->model = $model;
+    }
+
+    // protected function parametes()
+    // {
+    //     $uri = $this->request->route()->uri();
+    //     $urlAtual = $uri;
+    //     $breadcrumbs = $uri;
+    //     if (strpos($uri, '/') !== false) {
+    //         $urlAtual = join(' - ', array_map('ucfirst', explode('/', $uri)));
+    //         $breadcrumbs = join(' / ', array_map('ucfirst', explode('/', $uri)));
+    //     }
+    //     $user = Auth()->User();
+    //     return array(
+    //         'user' => $user,
+    //         'urlAtual' => $urlAtual,
+    //         'breadcrumbs' => $breadcrumbs
+    //     );
+    // }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,10 +42,13 @@ class CampaignController extends Controller
     public function index()
     {
         $user = Auth()->User();
-        $campaigns = Campaign::all();
-        return view('panel.campaign.index', [
-            'user' => $user,
-            'campaigns' => $campaigns]
+        $campaigns = $this->model->where('id', '!=', 0)->get();
+        return view(
+            'panel.campaign.index',
+            [
+                'user' => $user,
+                'campaigns' => $campaigns
+            ]
         );
     }
 
@@ -29,7 +59,11 @@ class CampaignController extends Controller
      */
     public function create()
     {
-        //
+        $user = Auth()->User();
+        return view(
+            'panel.campaign.create',
+            ['user' => $user]
+        );
     }
 
     /**
@@ -40,7 +74,11 @@ class CampaignController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $store = Campaign::create($request->all());
+        if ($store)
+            return redirect()->route("campaigns.index")->with('success', 'Campanha cadastrada com sucesso!');
+
+        return redirect()->route('campaigns.index')->with('error', 'Ocorreu um erro ao cadastrar a campanha');
     }
 
     /**
@@ -54,8 +92,8 @@ class CampaignController extends Controller
         $user = Auth()->User();
         return view('panel.campaign.show', [
             'user' => $user,
-            'campaign' => $campaign]
-        );
+            'campaign' => $campaign
+        ]);
     }
 
     /**
@@ -66,7 +104,11 @@ class CampaignController extends Controller
      */
     public function edit(Campaign $campaign)
     {
-        //
+        $user = Auth()->User();
+        return view('panel.campaign.edit', [
+            'user' => $user,
+            'campaign' => $campaign
+        ]);
     }
 
     /**
@@ -78,7 +120,13 @@ class CampaignController extends Controller
      */
     public function update(Request $request, Campaign $campaign)
     {
-        //
+        $campaign->name = $request->name;
+        $campaign->description = $request->description;
+        $campaign->save();
+        if ($campaign)
+            return redirect()->route("campaigns.index")->with('success', 'Campanha alterada com sucesso!');
+
+        return redirect()->route('campaigns.index')->with('error', 'Ocorreu um erro ao alterar a campanha');
     }
 
     /**
@@ -89,6 +137,7 @@ class CampaignController extends Controller
      */
     public function destroy(Campaign $campaign)
     {
-        //
+        $campaign->delete();
+        return redirect()->route('campaigns.index');
     }
 }

@@ -23,9 +23,9 @@ class PanelController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function show()
     {
         $user = Auth()->User();
-        return view('panel.index', compact('user'));
+        return view('panel.show', compact('user'));
     }
 }

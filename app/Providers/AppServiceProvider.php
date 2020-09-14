@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,6 +29,8 @@ class AppServiceProvider extends ServiceProvider
             'create' => 'novo',
             'edit' => 'editar'
         ]);
+
+        Carbon::setLocale(env('LOCALE', 'pt_br'));
 
     }
 }
