@@ -14,9 +14,6 @@
         <!-- Content Header (Page header) -->
         <div class="content-header">
             <div class="container-fluid">
-                {{-- <a class="btn btn-info"
-                    onclick="$('.toast').toast('show'); console.log('clicou');">Info message</a>
-                --}}
                 {{-- Toast --}}
                 @if (session('success'))
                     <style>
@@ -48,14 +45,14 @@
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1 class="m-0 text-dark">
-                            Campanhas
+                            Segmentações
                         </h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('panel.show') }}">Home</a></li>
                             <li class="breadcrumb-item active">
-                                Campanhas
+                                Segmentações
                             </li>
                         </ol>
                     </div><!-- /.col -->
@@ -72,7 +69,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Lista de campanhas</h3><a href="{{ route('campaigns.create') }}"
+                                <h3 class="card-title">Lista de segmentações</h3><a href="{{ route('segmentations.create') }}"
                                     style="color: white" class="btn btn-sm btn-success float-right"><i
                                         class="fa fa-plus-square"></i>&nbsp;&nbsp;Nova</a>
 
@@ -83,42 +80,33 @@
                                     <thead>
                                         <tr>
                                             <th class="text-center">ID</th>
+                                            <th>Campanha</th>
                                             <th>Nome</th>
                                             <th>Descrição</th>
-                                            <th>Segmentações</th>
                                             <th>Criada</th>
                                             <th class="text-center py-0 align-middle">Ação</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($campaigns as $campaign)
+                                        @foreach ($segmentations as $segmentation)
                                             <tr>
-                                                <td class="text-center">{{ $campaign->id }}</td>
+                                                <td class="text-center">{{ $segmentation->id }}</td>
+                                                <td>{{ $segmentation->campaign->name }}</td>
                                                 <td><a
-                                                        href="{{ route('campaigns.show', ['campaign' => $campaign->id]) }}">{{ $campaign->name }}</a>
+                                                        href="{{ route('segmentations.show', ['segmentation' => $segmentation->id]) }}">{{ $segmentation->name }}</a>
                                                 </td>
-                                                <td>{{ $campaign->description }}</td>
-                                                <td>
-                                                    <ul>
-                                                        @foreach ($campaign->segmentations as $item)
-                                                            <li>{{ $item->name }}</li>
-                                                            {{-- <li><a
-                                                                    href="{{ route('segmentations.index', ['segmentation' => $item->id]) }}">{{ $item->name }}</a>
-                                                            </li> --}}
-                                                        @endforeach
-                                                    </ul>
-                                                </td>
-                                                <td>{{ $campaign->created_at->diffForHumans() }}</td>
+                                                <td>{{ $segmentation->description }}</td>
+                                                <td>{{ $segmentation->created_at->diffForHumans() }}</td>
                                                 <td class="text-center py-0 align-middle">
                                                     <form
-                                                        action="{{ route('campaigns.destroy', ['campaign' => $campaign->id]) }}"
+                                                        action="{{ route('segmentations.destroy', ['segmentation' => $segmentation->id]) }}"
                                                         method="POST">
                                                         <div class="btn-group btn-group-sm">
-                                                            <a href="{{ route('campaigns.show', ['campaign' => $campaign->id]) }}"
+                                                            <a href="{{ route('segmentations.show', ['segmentation' => $segmentation->id]) }}"
                                                                 class="btn btn-primary"><i class="fas fa-eye"></i></a>
-                                                            <a href="{{ route('campaigns.edit', ['campaign' => $campaign->id]) }}"
+                                                            <a href="{{ route('segmentations.edit', ['segmentation' => $segmentation->id]) }}"
                                                                 class="btn btn-info"><i class="fas fa-edit"></i></a>
-                                                            <a href="{{ route('campaigns.destroy', ['campaign' => $campaign->id]) }}"
+                                                            <a href="{{ route('segmentations.destroy', ['segmentation' => $segmentation->id]) }}"
                                                                 class="btn btn-danger delete-user"><i
                                                                     class="fas fa-trash"></i></a>
                                                         </div>
@@ -132,9 +120,9 @@
                                     <tfoot>
                                         <tr>
                                             <th class="text-center">ID</th>
+                                            <th>Campanha</th>
                                             <th>Nome</th>
                                             <th>Descrição</th>
-                                            <th>Segmentações</th>
                                             <th>Criada</th>
                                             <th class="text-center py-0 align-middle">Ação</th>
                                         </tr>
@@ -187,8 +175,8 @@
                     "sInfoPostFix": "",
                     "sInfoThousands": ".",
                     "sLengthMenu": "_MENU_ resultados por página",
-                    "sLoadingRecords": "Carregando...",
-                    "sProcessing": "Processando...",
+                    "sLoadingRecords": "Carregando..",
+                    "sProcessing": "Processando..",
                     "sZeroRecords": "Nenhum registro encontrado",
                     "sSearch": "Pesquisar",
                     "oPaginate": {

@@ -12,4 +12,9 @@ class Segmentation extends Model
     protected $fillable = [
         'campaigns_id', 'name', 'description',
     ];
+
+    public function campaign()
+    {
+        return $this->belongsTo(Campaign::class, 'campaigns_id', 'id');
+    }
 }

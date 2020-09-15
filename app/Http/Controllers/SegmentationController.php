@@ -7,6 +7,16 @@ use Illuminate\Http\Request;
 
 class SegmentationController extends Controller
 {
+    public $request;
+    protected $model;
+
+    public function __construct(Request $request, Segmentation $model)
+    {
+        $this->middleware('auth');
+        $this->request = $request;
+        $this->model = $model;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +24,15 @@ class SegmentationController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth()->User();
+        $segmentations = $this->model->where('id', '!=', 0)->get();
+        return view(
+            'panel.segmentation.index',
+            [
+                'user' => $user,
+                'segmentations' => $segmentations
+            ]
+        );
     }
 
     /**
@@ -24,7 +42,11 @@ class SegmentationController extends Controller
      */
     public function create()
     {
-        //
+        $user = Auth()->User();
+        return view(
+            'panel.segmentation.create',
+            ['user' => $user]
+        );
     }
 
     /**
@@ -35,7 +57,11 @@ class SegmentationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $store = $this->model->create($request->all());
+        if ($store)
+            return redirect()->route("segmentations.index")->with('success', 'Segmentação cadastrada com sucesso!');
+
+        return redirect()->route('segmentations.index')->with('error', 'Ocorreu um erro ao cadastrar a segmentação');
     }
 
     /**
@@ -46,7 +72,11 @@ class SegmentationController extends Controller
      */
     public function show(Segmentation $segmentation)
     {
-        //
+        $user = Auth()->User();
+        return view('panel.segmentation.show', [
+            'user' => $user,
+            'segmentation' => $segmentation
+        ]);
     }
 
     /**
@@ -57,7 +87,11 @@ class SegmentationController extends Controller
      */
     public function edit(Segmentation $segmentation)
     {
-        //
+        $user = Auth()->User();
+        return view('panel.segmentation.edit', [
+            'user' => $user,
+            'segmentation' => $segmentation
+        ]);
     }
 
     /**
@@ -69,7 +103,14 @@ class SegmentationController extends Controller
      */
     public function update(Request $request, Segmentation $segmentation)
     {
-        //
+        $segmentation->campaigns_id = $request->campaigns_id;
+        $segmentation->name = $request->name;
+        $segmentation->description = $request->description;
+        $segmentation->save();
+        if ($segmentation)
+            return redirect()->route("segmentations.index")->with('success', 'Segmentação alterada com sucesso!');
+
+        return redirect()->route('segmentations.index')->with('error', 'Ocorreu um erro ao alterar a segmentação');
     }
 
     /**
@@ -80,6 +121,7 @@ class SegmentationController extends Controller
      */
     public function destroy(Segmentation $segmentation)
     {
-        //
+        $segmentation->delete();
+        return redirect()->route('segmentations.index');
     }
 }

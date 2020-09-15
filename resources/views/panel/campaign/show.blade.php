@@ -68,9 +68,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        {{-- <div class="row">
+                                        <div class="row">
                                             <div class="col-12">
-                                                <h4>Segmentações</h4>
+                                                <h4>Segmentações - {{ $campaign->segmentations->count() }}</h4>
                                                 <div class="post">
                                                     <div class="user-block">
                                                         <img class="img-circle img-bordered-sm"
@@ -141,7 +141,7 @@
                                                     </p>
                                                 </div>
                                             </div>
-                                        </div> --}}
+                                        </div>
                                     </div>
                                     <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
                                         <h5 class="text-primary"><i class="fas fa-pencil-alt"></i> Detalhes</h5>

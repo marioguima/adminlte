@@ -12,4 +12,9 @@ class Campaign extends Model
     protected $fillable = [
         'name', 'description',
     ];
+
+    public function segmentations()
+    {
+        return $this->hasMany(Segmentation::class, 'campaigns_id', 'id' );
+    }
 }

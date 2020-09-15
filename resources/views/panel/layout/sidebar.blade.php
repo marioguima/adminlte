@@ -11,7 +11,8 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{ url('public/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+                <img src="{{ url('public/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2"
+                    alt="User Image">
             </div>
             <div class="info">
                 <a href="#" class="d-block">{{ $user->name }}</a>
@@ -25,35 +26,41 @@
                 <!-- Add icons to the links using the .nav-icon class
        with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="{{ route('panel.show') }}" class="nav-link">
+                    <a href="{{ route('panel.show') }}" class="nav-link {{ strpos(Route::currentRouteName(), 'panel') === 0 ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Painel</p>
                     </a>
                 </li>
                 <li class="nav-header">AUTOMAÇÃO</li>
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fab fa-whatsapp text-green"></i>
+                <li
+                    class="nav-item has-treeview {{ strpos(Route::currentRouteName(), 'campaigns') === 0 || strpos(Route::currentRouteName(), 'segmentations') === 0 || strpos(Route::currentRouteName(), 'groups') === 0 ? 'menu-open' : '' }}">
+                    <a href="#"
+                        class="nav-link {{ strpos(Route::currentRouteName(), 'campaigns') === 0 || strpos(Route::currentRouteName(), 'segmentations') === 0 || strpos(Route::currentRouteName(), 'groups') === 0 ? 'active' : '' }}">
+                        <i class="nav-icon fab fa-whatsapp"></i>
                         <p>Whatsapp
                             <i class="fas fa-angle-left right"></i>
-                            {{-- <span class="badge badge-info right">6</span> --}}
+                            {{-- <span class="badge badge-info right">6</span>
+                            --}}
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('campaigns.index') }}" class="nav-link">
+                            <a href="{{ route('campaigns.index') }}"
+                                class="nav-link {{ strpos(Route::currentRouteName(), 'campaigns') === 0 ? 'active' : '' }}">
                                 <i class="fas fa-funnel-dollar nav-icon"></i>
                                 <p>Campanhas</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="3" class="nav-link">
+                            <a href="{{ route('segmentations.index') }}"
+                                class="nav-link {{ strpos(Route::currentRouteName(), 'segmentations') === 0 ? 'active' : '' }}">
                                 <i class="fas fa-users-cog nav-icon"></i>
                                 <p>Segmentação</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="#"
+                                class="nav-link {{ strpos(Route::currentRouteName(), 'groups') === 0 ? 'active' : '' }}">
                                 <i class="fas fa-user-friends nav-icon"></i>
                                 <p>{{ __('Grupos') }}</p>
                             </a>
@@ -70,14 +77,14 @@
                 <li class="nav-header">{{ __('USUÁRIO') }}</li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon far fa-address-card text-primary"></i>
+                        <i class="nav-icon far fa-address-card"></i>
                         <p>{{ __('Perfil') }}</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">
-                        <i class="nav-icon fas fa-sign-out-alt text-danger"></i>
+                        <i class="nav-icon fas fa-sign-out-alt"></i>
                         <p class="text">{{ __('Sair') }}</p>
                     </a>
 

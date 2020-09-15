@@ -42,7 +42,8 @@ class CampaignController extends Controller
     public function index()
     {
         $user = Auth()->User();
-        $campaigns = $this->model->where('id', '!=', 0)->get();
+        $campaigns = $this->model->where('id', '!=', 0)->with(['segmentations'])->get();
+        // dd($campaigns);
         return view(
             'panel.campaign.index',
             [
@@ -74,7 +75,7 @@ class CampaignController extends Controller
      */
     public function store(Request $request)
     {
-        $store = Campaign::create($request->all());
+        $store = $this->model->create($request->all());
         if ($store)
             return redirect()->route("campaigns.index")->with('success', 'Campanha cadastrada com sucesso!');
 
