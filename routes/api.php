@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\RedirectionController;
+use App\Http\Controllers\api\WaGroupController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::apiResource('redirects', RedirectionController::class);
+Route::apiResource('wagroups', WaGroupController::class);
