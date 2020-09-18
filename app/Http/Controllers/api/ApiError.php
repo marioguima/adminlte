@@ -1,6 +1,6 @@
 <?php
 
-namespace App\api;
+namespace App\Http\Controllers\api;
 
 class ApiError
 {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Campaign;
 use App\Models\Segmentation;
 use Illuminate\Http\Request;
 
@@ -43,9 +44,13 @@ class SegmentationController extends Controller
     public function create()
     {
         $user = Auth()->User();
+        $campaigns = Campaign::orderby('name','asc')->select('id','name')->get();
         return view(
             'panel.segmentation.create',
-            ['user' => $user]
+            [
+                'user' => $user,
+                'campaigns' => $campaigns
+            ]
         );
     }
 
@@ -88,10 +93,15 @@ class SegmentationController extends Controller
     public function edit(Segmentation $segmentation)
     {
         $user = Auth()->User();
-        return view('panel.segmentation.edit', [
-            'user' => $user,
-            'segmentation' => $segmentation
-        ]);
+        $campaigns = Campaign::orderby('name','asc')->select('id','name')->get();
+        return view(
+            'panel.segmentation.edit',
+            [
+                'user' => $user,
+                'segmentation' => $segmentation,
+                'campaigns' => $campaigns
+            ]
+        );
     }
 
     /**

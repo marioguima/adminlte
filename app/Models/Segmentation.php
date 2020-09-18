@@ -17,4 +17,9 @@ class Segmentation extends Model
     {
         return $this->belongsTo(Campaign::class, 'campaigns_id', 'id');
     }
+
+    public function groups()
+    {
+        return $this->hasMany(WaGroup::class, 'segmentations_id', 'id' );
+    }
 }

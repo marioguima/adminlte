@@ -1,170 +1,114 @@
-@extends('panel.layout.index')
+@extends('adminlte::page')
 
-{{-- DataTables --}}
-@section('scripts')
+@section('title', 'Automation - Campanhas')
+
+@section('css')
     <!-- DataTables -->
-    <link rel="stylesheet" href="{{ url('public/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ url('public/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-@endsection
+    <link rel="stylesheet" href="{{ asset('public/vendor/datatables/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('public/vendor/datatables-plugins/responsive/css/responsive.bootstrap4.min.css') }}">
+@stop
+
+@section('content_header')
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Campanhas</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{{ route('panel.index') }}">Painel</a></li>
+                <li class="breadcrumb-item active">Campanhas</li>
+            </ol>
+        </div><!-- /.col -->
+    </div>
+@stop
 
 @section('content')
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Lista de campanhas</h3><a href="{{ route('campaigns.create') }}"
+                        style="color: white" class="btn btn-sm btn-success float-right"><i
+                            class="fa fa-plus-square"></i>&nbsp;&nbsp;Nova</a>
 
-    <div class="content-wrapper">
-
-        <!-- Content Header (Page header) -->
-        <div class="content-header">
-            <div class="container-fluid">
-                {{-- <a class="btn btn-info"
-                    onclick="$('.toast').toast('show'); console.log('clicou');">Info message</a>
-                --}}
-                {{-- Toast --}}
-                @if (session('success'))
-                    <style>
-                        .toast {
-                            left: 50%;
-                            position: fixed;
-                            transform: translate(-50%, 0px);
-                            z-index: 9999;
-                        }
-
-                    </style>
-                    {{-- style="position: absolute; top: 4rem; right: 1rem; z-index:1;"
-                    --}}
-                    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
-                        <div class="toast-header">
-                            <strong class="mr-auto">Sucesso</strong>
-                            <small>Fechar</small>
-                            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Fechar">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="toast-body">
-                            {{ session('success') }}
-                        </div>
-                    </div>
-                @endif
-
-
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">
-                            Campanhas
-                        </h1>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('panel.show') }}">Home</a></li>
-                            <li class="breadcrumb-item active">
-                                Campanhas
-                            </li>
-                        </ol>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </div>
-        <!-- /.content-header -->
-
-        <!-- Main content -->
-        <section class="content">
-            <div class="container-fluid">
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Lista de campanhas</h3><a href="{{ route('campaigns.create') }}"
-                                    style="color: white" class="btn btn-sm btn-success float-right"><i
-                                        class="fa fa-plus-square"></i>&nbsp;&nbsp;Nova</a>
-
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <table id="table" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">ID</th>
-                                            <th>Nome</th>
-                                            <th>Descrição</th>
-                                            <th>Segmentações</th>
-                                            <th>Criada</th>
-                                            <th class="text-center py-0 align-middle">Ação</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($campaigns as $campaign)
-                                            <tr>
-                                                <td class="text-center">{{ $campaign->id }}</td>
-                                                <td><a
-                                                        href="{{ route('campaigns.show', ['campaign' => $campaign->id]) }}">{{ $campaign->name }}</a>
-                                                </td>
-                                                <td>{{ $campaign->description }}</td>
-                                                <td>
-                                                    <ul>
-                                                        @foreach ($campaign->segmentations as $item)
-                                                            <li>{{ $item->name }}</li>
-                                                            {{-- <li><a
-                                                                    href="{{ route('segmentations.index', ['segmentation' => $item->id]) }}">{{ $item->name }}</a>
-                                                            </li> --}}
-                                                        @endforeach
-                                                    </ul>
-                                                </td>
-                                                <td>{{ $campaign->created_at->diffForHumans() }}</td>
-                                                <td class="text-center py-0 align-middle">
-                                                    <form
-                                                        action="{{ route('campaigns.destroy', ['campaign' => $campaign->id]) }}"
-                                                        method="POST">
-                                                        <div class="btn-group btn-group-sm">
-                                                            <a href="{{ route('campaigns.show', ['campaign' => $campaign->id]) }}"
-                                                                class="btn btn-primary"><i class="fas fa-eye"></i></a>
-                                                            <a href="{{ route('campaigns.edit', ['campaign' => $campaign->id]) }}"
-                                                                class="btn btn-info"><i class="fas fa-edit"></i></a>
-                                                            <a href="{{ route('campaigns.destroy', ['campaign' => $campaign->id]) }}"
-                                                                class="btn btn-danger delete-user"><i
-                                                                    class="fas fa-trash"></i></a>
-                                                        </div>
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th class="text-center">ID</th>
-                                            <th>Nome</th>
-                                            <th>Descrição</th>
-                                            <th>Segmentações</th>
-                                            <th>Criada</th>
-                                            <th class="text-center py-0 align-middle">Ação</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-                    </div>
                 </div>
-
-            </div><!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="table" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th class="text-center">ID</th>
+                                <th>Nome</th>
+                                <th>Descrição</th>
+                                <th>Segmentações</th>
+                                <th>Criada</th>
+                                <th class="text-center py-0 align-middle">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($campaigns as $campaign)
+                                <tr>
+                                    <td class="text-center">{{ $campaign->id }}</td>
+                                    <td><a
+                                            href="{{ route('campaigns.show', ['campaign' => $campaign->id]) }}">{{ $campaign->name }}</a>
+                                    </td>
+                                    <td>{{ $campaign->description }}</td>
+                                    <td>
+                                        <ul>
+                                            @foreach ($campaign->segmentations as $item)
+                                                <li>{{ $item->name }}</li>
+                                                {{-- <li><a
+                                                        href="{{ route('segmentations.index', ['segmentation' => $item->id]) }}">{{ $item->name }}</a>
+                                                </li> --}}
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                    <td>{{ $campaign->created_at->diffForHumans() }}</td>
+                                    <td class="text-center py-0 align-middle">
+                                        <form action="{{ route('campaigns.destroy', ['campaign' => $campaign->id]) }}"
+                                            method="POST">
+                                            <div class="btn-group btn-group-sm">
+                                                <a href="{{ route('campaigns.show', ['campaign' => $campaign->id]) }}"
+                                                    class="btn btn-primary"><i class="fas fa-eye"></i></a>
+                                                <a href="{{ route('campaigns.edit', ['campaign' => $campaign->id]) }}"
+                                                    class="btn btn-info"><i class="fas fa-edit"></i></a>
+                                                <a href="{{ route('campaigns.destroy', ['campaign' => $campaign->id]) }}"
+                                                    class="btn btn-danger delete-user"><i class="fas fa-trash"></i></a>
+                                            </div>
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th class="text-center">ID</th>
+                                <th>Nome</th>
+                                <th>Descrição</th>
+                                <th>Segmentações</th>
+                                <th>Criada</th>
+                                <th class="text-center py-0 align-middle">Ação</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
     </div>
-
 @endsection
 
-
-@section('page_scripts')
-
+@section('js')
     <!-- DataTables -->
-    <script src="{{ url('public/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ url('public/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ url('public/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ url('public/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="{{ url('public/dist/js/demo.js') }}"></script>
-    <!-- page script -->
+    <script src="{{ asset('public/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('public/vendor/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('public/vendor/datatables-plugins/responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('public/vendor/datatables-plugins/responsive/js/responsive.bootstrap4.min.js') }}"></script>
 
+    <!-- page script -->
     <script>
         $(document).ready(function() {
             $('#table').DataTable({
@@ -176,7 +120,7 @@
                 "autoWidth": false,
                 "responsive": true,
                 'columnDefs': [{
-                    'targets': [4], // column index (start from 0)
+                    'targets': [5], // column index (start from 0)
                     'orderable': false, // set orderable false for selected columns
                 }],
                 "language": {
@@ -243,7 +187,5 @@
             });
 
         </script>
-
     @endif
-
 @endsection
