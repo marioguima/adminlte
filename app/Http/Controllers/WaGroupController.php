@@ -7,6 +7,17 @@ use Illuminate\Http\Request;
 
 class WaGroupController extends Controller
 {
+
+    public $request;
+    protected $model;
+
+    public function __construct(Request $request, WaGroup $model)
+    {
+        $this->middleware('auth');
+        $this->request = $request;
+        $this->model = $model;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +25,15 @@ class WaGroupController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth()->User();
+        $groups = $this->model->where('id', '!=', 0)->get();
+        return view(
+            'panel.groups.index',
+            [
+                'user' => $user,
+                'groups' => $groups
+            ]
+        );
     }
 
     /**
