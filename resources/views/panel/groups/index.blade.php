@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Automation - Segmentações')
+@section('title', 'Automation - Grupos')
 
 @section('css')
     <!-- DataTables -->
@@ -12,12 +12,12 @@
 @section('content_header')
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Segmentações</h1>
+            <h1 class="m-0 text-dark">Grupos</h1>
         </div><!-- /.col -->
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{ route('panel.index') }}">Painel</a></li>
-                <li class="breadcrumb-item active">Segmentações</li>
+                <li class="breadcrumb-item active">Grupos</li>
             </ol>
         </div><!-- /.col -->
     </div>
@@ -38,9 +38,8 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Lista de segmentações</h3><a href="{{ route('segmentations.create') }}"
-                        style="color: white" class="btn btn-sm btn-success float-right"><i
-                            class="fa fa-plus-square"></i>&nbsp;&nbsp;Nova</a>
+                    <h3 class="card-title">Lista de Grupos</h3><a href="{{ route('groups.create') }}" style="color: white"
+                        class="btn btn-sm btn-success float-right"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;Novo</a>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -50,45 +49,31 @@
                                 <th class="text-center">ID</th>
                                 <th>Campanha</th>
                                 <th>Segmentação</th>
+                                <th>Grupo</th>
                                 <th>Descrição</th>
-                                <th>Grupos</th>
-                                <th>Criada</th>
+                                <th>Criado</th>
                                 <th class="text-center py-0 align-middle">Ação</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($segmentations as $segmentation)
+                            @forelse ($groups as $group)
                                 <tr>
-                                    <td class="text-center">{{ $segmentation->id }}</td>
-                                    <td>{{ $segmentation->campaign->name }}</td>
-                                    <td><a
-                                            href="{{ route('segmentations.show', ['segmentation' => $segmentation->id]) }}">{{ $segmentation->name }}</a>
+                                    <td class="text-center">{{ $group->id }}</td>
+                                    <td>{{ $group->segmentation->campaign->name }}</td>
+                                    <td>{{ $group->segmentation->name }}</td>
+                                    <td><a href="{{ route('groups.show', ['group' => $group->id]) }}">{{ $group->name }}</a>
                                     </td>
-                                    <td>{!! nl2br(e($segmentation->description)) !!}</td>
-                                    <td>
-                                        <ul style="padding-left: 15px;">
-                                            @foreach ($segmentation->groups as $item)
-                                                <li>{{ $item->name }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </td>
-                                    <td>{{ formatDateAndTime($segmentation->created_at) }}</td>
+                                    <td>{!! nl2br(e($group->description)) !!}</td>
+                                    <td>{{ formatDateAndTime($group->created_at) }}</td>
                                     <td class="text-center py-0 align-middle">
-                                        <form
-                                            action="{{ route('segmentations.destroy', ['segmentation' => $segmentation->id]) }}"
-                                            method="POST">
+                                        <form action="{{ route('groups.destroy', ['group' => $group->id]) }}" method="POST">
                                             <div class="btn-group btn-group-sm">
-                                                <a href="{{ route('segmentations.show', ['segmentation' => $segmentation->id]) }}"
+                                                <a href="{{ route('groups.show', ['group' => $group->id]) }}"
                                                     class="btn btn-primary"><i class="fas fa-eye"></i></a>
-                                                <a href="{{ route('segmentations.edit', ['segmentation' => $segmentation->id]) }}"
+                                                <a href="{{ route('groups.edit', ['group' => $group->id]) }}"
                                                     class="btn btn-info"><i class="fas fa-edit"></i></a>
-                                                @if ($segmentation->groups->count() > 0)
-                                                    <button type="button" class="btn btn-secondary not-delete-row"><i
-                                                            class="fas fa-trash"></i></button>
-                                                @else
-                                                    <a href="{{ route('segmentations.destroy', ['segmentation' => $segmentation->id]) }}"
-                                                        class="btn btn-danger delete-user"><i class="fas fa-trash"></i></a>
-                                                @endif
+                                                <a href="{{ route('groups.destroy', ['group' => $group->id]) }}"
+                                                    class="btn btn-danger delete-user"><i class="fas fa-trash"></i></a>
                                             </div>
                                             @csrf
                                             @method('DELETE')
@@ -97,7 +82,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6">Nenhum registro encontrado</td>
+                                    <td colspan="7">Nenhum registro encontrado</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -106,9 +91,9 @@
                                 <th class="text-center">ID</th>
                                 <th>Campanha</th>
                                 <th>Segmentação</th>
+                                <th>Grupo</th>
                                 <th>Descrição</th>
-                                <th>Grupos</th>
-                                <th>Criada</th>
+                                <th>Criado</th>
                                 <th class="text-center py-0 align-middle">Ação</th>
                             </tr>
                         </tfoot>
@@ -131,7 +116,6 @@
 
 <script>
     $(document).ready(function() {
-        console.log('do');
         $('#table').DataTable({
             "paging": true,
             "lengthChange": true,
@@ -141,13 +125,13 @@
             "autoWidth": false,
             "responsive": true,
             'columnDefs': [{
-                'targets': [5], // column index (start from 0)
+                'targets': [6], // column index (start from 0)
                 'orderable': false, // set orderable false for selected columns
             }],
             "order": [
-                [4, 'desc'],
                 [1, 'asc'],
-                [2, 'asc']
+                [2, 'asc'],
+                [3, 'asc']
             ],
             "language": {
                 "sEmptyTable": "Nenhum registro encontrado",
@@ -202,10 +186,6 @@
             $(e.target).closest('form')
                 .submit() // Post the surrounding form
         }
-    });
-
-    $('.not-delete-row').click(function(e) {
-        alert('Não é permitido excluir uma segmentação que possua grupo');
     });
 
 </script>

@@ -34,9 +34,9 @@
                         @endif
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label class="col-form-label" for="name">Nome</label>
-                                    <input type="text" id="name" name="name" class="form-control"
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label" for="name">Nome</label>
+                                    <input type="text" id="name" name="name" class="col-sm-10 form-control"
                                         placeholder="Digite o nome ..." value="{{ old('name') }}" required>
                                 </div>
                             </div>
@@ -44,9 +44,9 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <!-- textarea -->
-                                <div class="form-group">
-                                    <label class="col-form-label" for="description">Descrição</label>
-                                    <textarea id="description" name="description" class="form-control" rows="3"
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label" for="description">Descrição</label>
+                                    <textarea id="description" name="description" class="form-control col-sm-10" rows="3"
                                         placeholder="Digite a descrição ..."></textarea>
                                 </div>
                             </div>

@@ -15,12 +15,16 @@ class CreateWaGroupsTable extends Migration
     {
         Schema::create('wa_groups', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('segmentations_id')->constrained('segmentations');
+            $table->foreignId('segmentations_id')->constrained();
             $table->string('name', 25);
-            $table->string('url');
+            $table->string('image_path');
             $table->text('description')->nullable();
-            $table->integer('seats')->comment('Máximo de lugares disponíveis no grupo. Contando com os administradores.');
-            $table->integer('occuped_seats')->comment('Lugares ocupados no grupo. Contando com os administradores.');
+            $table->enum('edit_data', ['all', 'only_admins'])->comment('Configuração de quem pode editar os dados do grupo.');
+            $table->enum('send_message', ['all', 'only_admins'])->comment('Configuração de quem pode enviar mensagem no grupo.');
+            $table->integer('seats')->comment('Quantidade máxima de vagas disponíveis no grupo. Contando com os administradores.');
+            $table->integer('occuped_seats')->default(0)->comment('Quantidade de pessoas no grupo. Contando com os administradores.');
+            $table->integer('people_left')->default(0)->comment('Quantidade de pessoas que saíram do grupo.');
+            $table->string('url')->nullable();
             $table->timestamps();
         });
     }

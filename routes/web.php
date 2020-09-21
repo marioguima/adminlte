@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\SegmentationController;
-use App\Models\WaGroup;
+use App\Http\Controllers\WaGroupController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -11,6 +11,9 @@ Route::get('/painel', [App\Http\Controllers\Panel\PanelController::class, 'index
 
 Route::resource('/painel/campanhas', CampaignController::class)->names('campaigns')->parameters(['campanhas' => 'campaign']);
 Route::resource('/painel/segmentacoes', SegmentationController::class)->names('segmentations')->parameters(['segmentacoes' => 'segmentation']);
-Route::resource('/painel/grupos', WaGroup::class)->names('groups')->parameters(['grupos' => 'group']);
+Route::resource('/painel/grupos', WaGroupController::class)->names('groups')->parameters(['grupos' => 'group']);
+
+// Usado via ajax para popular select
+Route::get('/painel/grupos/segmentacoes/{campaign}', [WaGroupController::class, 'getSegmentations'])->name('groups.segmentations.fetch');
 
 Auth::routes();

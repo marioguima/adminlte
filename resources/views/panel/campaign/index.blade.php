@@ -47,7 +47,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($campaigns as $campaign)
+                            @forelse ($campaigns as $campaign)
                                 <tr>
                                     <td class="text-center">{{ $campaign->id }}</td>
                                     <td><a
@@ -55,7 +55,7 @@
                                     </td>
                                     <td>{{ $campaign->description }}</td>
                                     <td>
-                                        <ul>
+                                        <ul style="padding-left: 15px;">
                                             @foreach ($campaign->segmentations as $item)
                                                 <li>{{ $item->name }}</li>
                                                 {{-- <li><a
@@ -64,7 +64,7 @@
                                             @endforeach
                                         </ul>
                                     </td>
-                                    <td>{{ $campaign->created_at->diffForHumans() }}</td>
+                                    <td>{{ formatDateAndTime($campaign->created_at) }}</td>
                                     <td class="text-center py-0 align-middle">
                                         <form action="{{ route('campaigns.destroy', ['campaign' => $campaign->id]) }}"
                                             method="POST">
@@ -73,15 +73,24 @@
                                                     class="btn btn-primary"><i class="fas fa-eye"></i></a>
                                                 <a href="{{ route('campaigns.edit', ['campaign' => $campaign->id]) }}"
                                                     class="btn btn-info"><i class="fas fa-edit"></i></a>
-                                                <a href="{{ route('campaigns.destroy', ['campaign' => $campaign->id]) }}"
-                                                    class="btn btn-danger delete-user"><i class="fas fa-trash"></i></a>
+                                                @if ($campaign->segmentations->count() > 0)
+                                                    <button type="button" class="btn btn-secondary not-delete-row"><i
+                                                            class="fas fa-trash"></i></button>
+                                                @else
+                                                    <a href="{{ route('campaigns.destroy', ['campaign' => $campaign->id]) }}"
+                                                        class="btn btn-danger delete-row"><i class="fas fa-trash"></i></a>
+                                                @endif
                                             </div>
                                             @csrf
                                             @method('DELETE')
                                         </form>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="6">Nenhum registro encontrado</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                         <tfoot>
                             <tr>
@@ -102,90 +111,94 @@
 @endsection
 
 @section('js')
-    <!-- DataTables -->
-    <script src="{{ asset('public/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('public/vendor/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('public/vendor/datatables-plugins/responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('public/vendor/datatables-plugins/responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<!-- DataTables -->
+<script src="{{ asset('public/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('public/vendor/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('public/vendor/datatables-plugins/responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('public/vendor/datatables-plugins/responsive/js/responsive.bootstrap4.min.js') }}"></script>
 
-    <!-- page script -->
-    <script>
-        $(document).ready(function() {
-            $('#table').DataTable({
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-                'columnDefs': [{
-                    'targets': [5], // column index (start from 0)
-                    'orderable': false, // set orderable false for selected columns
-                }],
-                "language": {
-                    "sEmptyTable": "Nenhum registro encontrado",
-                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
-                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
-                    "sInfoPostFix": "",
-                    "sInfoThousands": ".",
-                    "sLengthMenu": "_MENU_ resultados por página",
-                    "sLoadingRecords": "Carregando...",
-                    "sProcessing": "Processando...",
-                    "sZeroRecords": "Nenhum registro encontrado",
-                    "sSearch": "Pesquisar",
-                    "oPaginate": {
-                        "sNext": "Próximo",
-                        "sPrevious": "Anterior",
-                        "sFirst": "Primeiro",
-                        "sLast": "Último"
-                    },
-                    "oAria": {
-                        "sSortAscending": ": Ordenar colunas de forma ascendente",
-                        "sSortDescending": ": Ordenar colunas de forma descendente"
-                    },
-                    "select": {
-                        "rows": {
-                            "_": "Selecionado %d linhas",
-                            "0": "Nenhuma linha selecionada",
-                            "1": "Selecionado 1 linha"
-                        }
-                    },
-                    "buttons": {
-                        "copy": "Copiar para a área de transferência",
-                        "copyTitle": "Cópia bem sucedida",
-                        "copySuccess": {
-                            "1": "Uma linha copiada com sucesso",
-                            "_": "%d linhas copiadas com sucesso"
-                        }
+<!-- page script -->
+<script>
+    $(document).ready(function() {
+        $('#table').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+
+            'columnDefs': [{
+                'targets': [5], // column index (start from 0)
+                'orderable': false, // set orderable false for selected columns
+            }],
+            "language": {
+                "sEmptyTable": "Nenhum registro encontrado",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ resultados por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum registro encontrado",
+                "sSearch": "Pesquisar",
+                "oPaginate": {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                },
+                "select": {
+                    "rows": {
+                        "_": "Selecionado %d linhas",
+                        "0": "Nenhuma linha selecionada",
+                        "1": "Selecionado 1 linha"
+                    }
+                },
+                "buttons": {
+                    "copy": "Copiar para a área de transferência",
+                    "copyTitle": "Cópia bem sucedida",
+                    "copySuccess": {
+                        "1": "Uma linha copiada com sucesso",
+                        "_": "%d linhas copiadas com sucesso"
                     }
                 }
-            });
-        });
-
-    </script>
-
-    {{-- Confirmar a exclusão --}}
-    <script>
-        $('.delete-user').click(function(e) {
-            console.log('delete');
-            e.preventDefault() // Don't post the form, unless confirmed
-            if (confirm('Confirma a exclusão?')) {
-                // Post the form
-                $(e.target).closest('form')
-                    .submit() // Post the surrounding form
             }
         });
+    });
+
+</script>
+
+{{-- Confirmar a exclusão --}}
+<script>
+    $('.delete-row').click(function(e) {
+        e.preventDefault() // Don't post the form, unless confirmed
+        if (confirm('Confirma a exclusão?')) {
+            // Post the form
+            $(e.target).closest('form')
+                .submit() // Post the surrounding form
+        }
+    });
+
+    $('.not-delete-row').click(function(e) {
+        alert('Não é permitido excluir uma campanha que possua segmentação');
+    });
+
+</script>
+
+@if (session('success'))
+    <script>
+        $(document).ready(() => {
+            $('.toast').toast('show');
+        });
 
     </script>
-
-    @if (session('success'))
-        <script>
-            $(document).ready(() => {
-                $('.toast').toast('show');
-            });
-
-        </script>
-    @endif
+@endif
 @endsection

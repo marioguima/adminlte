@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSegmentationsTable extends Migration
+class CreateWaGroupInitialMembersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateSegmentationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('segmentations', function (Blueprint $table) {
+        Schema::create('wa_group_initial_members', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('campaigns_id')->constrained('campaigns');
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->string('hits')->default(0);
+            $table->foreignId('wa_groups_id')->constrained()->onDelete('cascade');
+            $table->string('contact_name');
+            $table->boolean('administrator');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateSegmentationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('segmentations');
+        Schema::dropIfExists('wa_group_initial_members');
     }
 }

@@ -41,9 +41,9 @@
 
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label class="col-form-label">Campanha</label>
-                                    <select class="form-control" style="width: 100%;" tabindex="-1" aria-hidden="true"
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">Campanha</label>
+                                    <select class="form-control col-sm-10" tabindex="-1" aria-hidden="true"
                                         name="campaigns_id" id="campaigns_id" required
                                         data-placeholder="Selecione uma campanha ...">
                                         <option value="" disabled selected></option>
@@ -58,9 +58,9 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label class="col-form-label" for="name">Nome</label>
-                                    <input type="text" id="name" name="name" class="form-control"
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label" for="name">Nome</label>
+                                    <input type="text" id="name" name="name" class="form-control col-sm-10"
                                         placeholder="Digite o nome ..." value="{{ $segmentation->name }}" required>
                                 </div>
                             </div>
@@ -68,9 +68,9 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <!-- textarea -->
-                                <div class="form-group">
-                                    <label class="col-form-label" for="description">Descrição</label>
-                                    <textarea id="description" name="description" class="form-control" rows="3"
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label" for="description">Descrição</label>
+                                    <textarea id="description" name="description" class="form-control col-sm-10" rows="3"
                                         placeholder="Digite a descrição ...">{{ $segmentation->description }}</textarea>
                                 </div>
                             </div>

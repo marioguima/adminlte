@@ -26,7 +26,8 @@ class SegmentationController extends Controller
     public function index()
     {
         $user = Auth()->User();
-        $segmentations = $this->model->where('id', '!=', 0)->get();
+        $segmentations = $this->model->where('id', '!=', 0)->with(['groups'])->get();
+        // dd($segmentations);
         return view(
             'panel.segmentation.index',
             [
