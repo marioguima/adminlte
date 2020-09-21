@@ -80,10 +80,10 @@ class WaGroupController extends Controller
         $waGroup = new WaGroup();
         $waGroup->segmentations_id = $request->segmentations_id;
         $waGroup->name = $request->name;
-        $waGroup->url = $request->url;
-        $waGroup->seats = $request->seats;
-        $waGroup->occuped_seats = $request->occuped_seats;
         $waGroup->description = $request->description;
+        $waGroup->edit_data = $request->edit_data;
+        $waGroup->send_message = $request->send_message;
+        $waGroup->seats = $request->seats;
         $waGroup->save($request->all());
 
         // Upload da imagem do grupo
@@ -158,7 +158,8 @@ class WaGroupController extends Controller
      */
     public function destroy(WaGroup $group)
     {
-        //
+        $group->delete();
+        return redirect()->route('groups.index');
     }
 
     public function getSegmentations($campaigns_id = 0)

@@ -17,7 +17,7 @@ class CreateWaGroupsTable extends Migration
             $table->id();
             $table->foreignId('segmentations_id')->constrained();
             $table->string('name', 25);
-            $table->string('image_path');
+            $table->string('image_path')->nullable();
             $table->text('description')->nullable();
             $table->enum('edit_data', ['all', 'only_admins'])->comment('Configuração de quem pode editar os dados do grupo.');
             $table->enum('send_message', ['all', 'only_admins'])->comment('Configuração de quem pode enviar mensagem no grupo.');
