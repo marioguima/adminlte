@@ -40,7 +40,6 @@
                             <tr>
                                 <th rowspan="2" class="text-center">ID</th>
                                 <th rowspan="2" class="">Nome</th>
-                                <th rowspan="2" class="">Descrição</th>
                                 <th rowspan="2" class="">Segmentações</th>
                                 <th colspan="2" class="text-center">Lançamento</th>
                                 <th colspan="2" class="text-center">Monitoramento</th>
@@ -60,7 +59,6 @@
                                     <td><a
                                             href="{{ route('campaigns.show', ['campaign' => $campaign->id]) }}">{{ $campaign->name }}</a>
                                     </td>
-                                    <td>{{ $campaign->description }}</td>
                                     <td>
                                         <ul style="padding-left: 15px;">
                                             @foreach ($campaign->segmentations as $item)
@@ -106,7 +104,6 @@
                             <tr>
                                 <th class="text-center">ID</th>
                                 <th>Nome</th>
-                                <th>Descrição</th>
                                 <th>Segmentações</th>
                                 <th class="text-center">Início</th>
                                 <th class="text-center">Fim</th>
@@ -143,7 +140,7 @@
             "responsive": true,
 
             'columnDefs': [{
-                'targets': [8], // column index (start from 0)
+                'targets': [7], // column index (start from 0)
                 'orderable': false, // set orderable false for selected columns
             }],
             "language": {

@@ -50,7 +50,6 @@
                                 <th class="text-center">ID</th>
                                 <th>Campanha</th>
                                 <th>Segmentação</th>
-                                <th>Descrição</th>
                                 <th>Grupos</th>
                                 <th class="text-center py-0 align-middle">Ação</th>
                             </tr>
@@ -63,7 +62,6 @@
                                     <td><a
                                             href="{{ route('segmentations.show', ['segmentation' => $segmentation->id]) }}">{{ $segmentation->name }}</a>
                                     </td>
-                                    <td>{!! nl2br(e($segmentation->description)) !!}</td>
                                     <td>
                                         <ul style="padding-left: 15px;">
                                             @foreach ($segmentation->groups as $item)
@@ -104,7 +102,6 @@
                                 <th class="text-center">ID</th>
                                 <th>Campanha</th>
                                 <th>Segmentação</th>
-                                <th>Descrição</th>
                                 <th>Grupos</th>
                                 <th class="text-center py-0 align-middle">Ação</th>
                             </tr>
@@ -138,7 +135,7 @@
             "autoWidth": false,
             "responsive": true,
             'columnDefs': [{
-                'targets': [5], // column index (start from 0)
+                'targets': [4], // column index (start from 0)
                 'orderable': false, // set orderable false for selected columns
             }],
             "order": [
