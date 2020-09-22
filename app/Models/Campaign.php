@@ -13,6 +13,7 @@ class Campaign extends Model
         'name',
         'start',
         'end',
+        'start_monitoring',
         'stop_monitoring',
         'description',
     ];

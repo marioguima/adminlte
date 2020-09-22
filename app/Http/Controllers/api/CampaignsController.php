@@ -17,10 +17,10 @@ class CampaignsController extends Controller
     {
         $campaign = new Campaign();
         $data = ['campaigns' => $campaign
-            ->select('id')
+            ->select('id,name,start,end,start_monitoring,stop_monitoring,description')
             ->with([
-                'segmentations:id,campaigns_id',
-                'segmentations.groups:id,segmentations_id,name,image_path,description,edit_data,send_message,seats'
+                'segmentations:id,campaigns_id,name,description',
+                'segmentations.groups:id,segmentations_id,name,image_path,description,edit_data,send_message,seats,occuped_seats,people_left,url,full_image_path'
             ])
             ->get()];
 

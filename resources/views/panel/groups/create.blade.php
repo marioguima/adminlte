@@ -110,7 +110,7 @@
                                         <option value="only_admins">Somente administradores</option>
                                     </select>
                                     <label class="col-sm-2 col-form-label" for="seats">Enviar mensagens</label>
-                                    <select name="edit_data" id="edit_data" class="col-sm-4 form-control">
+                                    <select name="send_message" id="send_message" class="col-sm-4 form-control">
                                         <option value="" disabled selected hidden>Selecione ...</option>
                                         <option value="all">Todos os participantes</option>
                                         <option value="only_admins">Somente administradores</option>

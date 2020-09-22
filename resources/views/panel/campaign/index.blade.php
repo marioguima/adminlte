@@ -38,14 +38,19 @@
                     <table id="table" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th class="text-center">ID</th>
-                                <th>Nome</th>
-                                <th>Descrição</th>
-                                <th>Segmentações</th>
-                                <th>Início</th>
-                                <th>Fim</th>
-                                <th>Monitorar</th>
-                                <th class="text-center py-0 align-middle">Ação</th>
+                                <th rowspan="2" class="text-center">ID</th>
+                                <th rowspan="2" class="">Nome</th>
+                                <th rowspan="2" class="">Descrição</th>
+                                <th rowspan="2" class="">Segmentações</th>
+                                <th colspan="2" class="text-center">Lançamento</th>
+                                <th colspan="2" class="text-center">Monitoramento</th>
+                                <th rowspan="2" class="text-center">Ação</th>
+                            </tr>
+                            <tr>
+                                <th class="text-center">Início</th>
+                                <th class="text-center">Fim</th>
+                                <th class="text-center">Início</th>
+                                <th class="text-center">Fim</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -66,9 +71,10 @@
                                             @endforeach
                                         </ul>
                                     </td>
-                                    <td>{{ formatDateAndTime($campaign->start, 'd/m/yy H:i:s') }}</td>
-                                    <td>{{ formatDateAndTime($campaign->end, 'd/m/yy H:i:s') }}</td>
-                                    <td>{{ formatDateAndTime($campaign->stop_monitoring, 'd/m/yy H:i:s') }}</td>
+                                    <td>{{ formatDateAndTime($campaign->start, 'd/m/yy H:i:s') }} </td>
+                                    <td>{{ formatDateAndTime($campaign->end, 'd/m/yy H:i:s') }} </td>
+                                    <td>{{ formatDateAndTime($campaign->start_monitoring, 'd/m/yy H:i:s') }} </td>
+                                    <td>{{ formatDateAndTime($campaign->stop_monitoring, 'd/m/yy H:i:s') }} </td>
                                     <td class="text-center py-0 align-middle">
                                         <form action="{{ route('campaigns.destroy', ['campaign' => $campaign->id]) }}"
                                             method="POST">
@@ -102,9 +108,10 @@
                                 <th>Nome</th>
                                 <th>Descrição</th>
                                 <th>Segmentações</th>
-                                <th>Início</th>
-                                <th>Fim</th>
-                                <th>Monitorar</th>
+                                <th class="text-center">Início</th>
+                                <th class="text-center">Fim</th>
+                                <th class="text-center">Início</th>
+                                <th class="text-center">Fim</th>
                                 <th class="text-center py-0 align-middle">Ação</th>
                             </tr>
                         </tfoot>
@@ -136,7 +143,7 @@
             "responsive": true,
 
             'columnDefs': [{
-                'targets': [5], // column index (start from 0)
+                'targets': [8], // column index (start from 0)
                 'orderable': false, // set orderable false for selected columns
             }],
             "language": {

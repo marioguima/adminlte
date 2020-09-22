@@ -17,8 +17,8 @@ class SegmentationSeeder extends Seeder
     {
         $segmentation = new Segmentation();
         $segmentation->campaigns_id = DB::table('campaigns')->get(['id'])->last()->id;
-        $segmentation->name = 'Homens-Hotmart-20a35-Brasil';
-        $segmentation->description = 'Homens que curtem hotmart, que tenham entre 20 a 35 anos, que morem no Brasil';
+        $segmentation->name = 'Público 1';
+        $segmentation->description = 'Público 1';
         $segmentation->save();
     }
 }
