@@ -8,10 +8,25 @@ use Illuminate\Database\Eloquent\Model;
 class WaGroup extends Model
 {
     use HasFactory;
+    
+    protected $appends = [
+        'full_image_path'
+    ];
 
     protected $fillable = [
-        'segmentations_id', 'name', 'url', 'image_path', 'description', 'edit_data', 'send_message', 'seats', 'occuped_seats'
+        'segmentations_id',
+        'name',
+        'image_path',
+        'description',
+        'edit_data',
+        'send_message',
+        'seats',
+        'occuped_seats',
+        'people_left',
+        'url',
+        'full_image_path',
     ];
+
 
     public function segmentation()
     {
@@ -20,6 +35,11 @@ class WaGroup extends Model
 
     public function initialMembers()
     {
-        return $this->hasMany(WaGroupInitialMember::class, 'wa_groups_id', 'id' );
+        return $this->hasMany(WaGroupInitialMember::class, 'wa_groups_id', 'id');
+    }
+
+    public function getFullImagePathAttribute()
+    {
+        return asset('/public/storage/' . $this->image_path);
     }
 }

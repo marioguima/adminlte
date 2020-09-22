@@ -10,7 +10,9 @@ class Segmentation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'campaigns_id', 'name', 'description',
+        'campaigns_id',
+        'name',
+        'description',
     ];
 
     public function campaign()
@@ -20,6 +22,6 @@ class Segmentation extends Model
 
     public function groups()
     {
-        return $this->hasMany(WaGroup::class, 'segmentations_id', 'id' );
+        return $this->hasMany(WaGroup::class, 'segmentations_id', 'id');
     }
 }

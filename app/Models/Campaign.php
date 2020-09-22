@@ -10,11 +10,15 @@ class Campaign extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'description',
+        'name',
+        'start',
+        'end',
+        'stop_monitoring',
+        'description',
     ];
 
     public function segmentations()
     {
-        return $this->hasMany(Segmentation::class, 'campaigns_id', 'id' );
+        return $this->hasMany(Segmentation::class, 'campaigns_id', 'id');
     }
 }

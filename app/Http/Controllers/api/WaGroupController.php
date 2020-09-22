@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\api;
 
-use App\api\ApiError;
 use App\Http\Controllers\Controller;
 use App\Models\WaGroup;
 use Illuminate\Http\Request;
-use PhpParser\Node\Stmt\TryCatch;
 
 class WaGroupController extends Controller
 {
