@@ -52,7 +52,6 @@
                                 <th>Segmentação</th>
                                 <th>Descrição</th>
                                 <th>Grupos</th>
-                                <th>Criada</th>
                                 <th class="text-center py-0 align-middle">Ação</th>
                             </tr>
                         </thead>
@@ -72,7 +71,6 @@
                                             @endforeach
                                         </ul>
                                     </td>
-                                    <td>{{ formatDateAndTime($segmentation->created_at) }}</td>
                                     <td class="text-center py-0 align-middle">
                                         <form
                                             action="{{ route('segmentations.destroy', ['segmentation' => $segmentation->id]) }}"
@@ -108,7 +106,6 @@
                                 <th>Segmentação</th>
                                 <th>Descrição</th>
                                 <th>Grupos</th>
-                                <th>Criada</th>
                                 <th class="text-center py-0 align-middle">Ação</th>
                             </tr>
                         </tfoot>

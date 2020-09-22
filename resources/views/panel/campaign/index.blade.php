@@ -42,7 +42,9 @@
                                 <th>Nome</th>
                                 <th>Descrição</th>
                                 <th>Segmentações</th>
-                                <th>Criada</th>
+                                <th>Início</th>
+                                <th>Fim</th>
+                                <th>Monitorar</th>
                                 <th class="text-center py-0 align-middle">Ação</th>
                             </tr>
                         </thead>
@@ -64,7 +66,9 @@
                                             @endforeach
                                         </ul>
                                     </td>
-                                    <td>{{ formatDateAndTime($campaign->created_at) }}</td>
+                                    <td>{{ formatDateAndTime($campaign->start, 'd/m/yy H:i:s') }}</td>
+                                    <td>{{ formatDateAndTime($campaign->end, 'd/m/yy H:i:s') }}</td>
+                                    <td>{{ formatDateAndTime($campaign->stop_monitoring, 'd/m/yy H:i:s') }}</td>
                                     <td class="text-center py-0 align-middle">
                                         <form action="{{ route('campaigns.destroy', ['campaign' => $campaign->id]) }}"
                                             method="POST">
@@ -98,7 +102,9 @@
                                 <th>Nome</th>
                                 <th>Descrição</th>
                                 <th>Segmentações</th>
-                                <th>Criada</th>
+                                <th>Início</th>
+                                <th>Fim</th>
+                                <th>Monitorar</th>
                                 <th class="text-center py-0 align-middle">Ação</th>
                             </tr>
                         </tfoot>

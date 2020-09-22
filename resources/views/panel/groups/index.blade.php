@@ -51,7 +51,6 @@
                                 <th>Segmentação</th>
                                 <th>Grupo</th>
                                 <th>Descrição</th>
-                                <th>Criado</th>
                                 <th class="text-center py-0 align-middle">Ação</th>
                             </tr>
                         </thead>
@@ -64,7 +63,6 @@
                                     <td><a href="{{ route('groups.show', ['group' => $group->id]) }}">{{ $group->name }}</a>
                                     </td>
                                     <td>{!! nl2br(e($group->description)) !!}</td>
-                                    <td>{{ formatDateAndTime($group->created_at) }}</td>
                                     <td class="text-center py-0 align-middle">
                                         <form action="{{ route('groups.destroy', ['group' => $group->id]) }}" method="POST">
                                             <div class="btn-group btn-group-sm">
@@ -93,7 +91,6 @@
                                 <th>Segmentação</th>
                                 <th>Grupo</th>
                                 <th>Descrição</th>
-                                <th>Criado</th>
                                 <th class="text-center py-0 align-middle">Ação</th>
                             </tr>
                         </tfoot>

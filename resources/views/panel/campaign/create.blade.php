@@ -37,7 +37,34 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label" for="name">Nome</label>
                                     <input type="text" id="name" name="name" class="col-sm-10 form-control"
-                                        placeholder="Digite o nome ..." value="{{ old('name') }}" required>
+                                        placeholder="Digite o nome ..." value="{{ old('name') }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label" for="start">Início</label>
+                                    <input type="text" id="start" name="start" class="col-sm-10 form-control"
+                                        placeholder="Data de início ..." value="{{ old('start') }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label" for="end">Fim</label>
+                                    <input type="text" id="end" name="end" class="col-sm-10 form-control"
+                                        placeholder="Data de fim ..." value="{{ old('end') }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label" for="stop_monitoring">Monitorar até</label>
+                                    <input type="text" id="stop_monitoring" name="stop_monitoring" class="col-sm-10 form-control"
+                                        placeholder="Data limite para monitorar ..." value="{{ old('stop_monitoring') }}">
                                 </div>
                             </div>
                         </div>
