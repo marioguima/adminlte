@@ -18,7 +18,6 @@ class CreateSegmentationsTable extends Migration
             $table->foreignId('campaigns_id')->constrained('campaigns');
             $table->string('name');
             $table->text('description')->nullable();
-            $table->string('hits')->default(0);
             $table->timestamps();
         });
     }
