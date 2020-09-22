@@ -51,32 +51,30 @@
                 <div class="card-body">
                     <ul class="list-group list-group-unbordered">
                         <li class="list-group-item" style="border-top: none;">
-                            <b>Membros</b> <a class="float-right">{{ $group->groupMembers->count() }}</a>
+                            <b>Membros</b> <a class="float-right">{{ $group->initialMembers->count() }}</a>
                         </li>
                         <li class="list-group-item">
                             <b>Participantes</b> <a
-                                class="float-right">{{ $group->occuped_seats - $group->groupMembers->count() < 0 ? 0 : $group->occuped_seats - $group->groupMembers->count() }}</a>
+                                class="float-right">{{ $group->occuped_seats - $group->initialMembers->count() < 0 ? 0 : $group->occuped_seats - $group->initialMembers->count() }}</a>
                         </li>
                         <li class="list-group-item" style="border-bottom: none;">
                             <b>Total</b> <a
-                                class="float-right">{{ $group->occuped_seats == 0 ? $group->groupMembers->count() : $group->occuped_seats }}</a>
+                                class="float-right">{{ $group->occuped_seats == 0 ? $group->initialMembers->count() : $group->occuped_seats }}</a>
                         </li>
                     </ul>
                 </div>
                 <div class="card-footer">
                     <div class="row">
-
                         <div class="col-sm-4 border-right">
                             <div class="description-block">
                                 <h5 class="description-header">{{ $group->occuped_seats }}</h5>
                                 <span class="description-text">OPT-IN</span>
                             </div>
-                            <!-- /.description-block -->
                         </div>
                         <!-- /.col -->
                         <div class="col-sm-4 border-right">
                             <div class="description-block">
-                                <h5 class="description-header">100</h5>
+                                <h5 class="description-header">{{ $group->people_left }}</h5>
                                 <span class="description-text">OPT-OUT</span>
                             </div>
                             <!-- /.description-block -->
@@ -128,42 +126,51 @@
             <!-- /.card -->
 
             <!-- About Me Box -->
-            <div class="card card-primary">
+            <div class="card card-outline card-info">
                 <div class="card-header">
-                    <h3 class="card-title">About Me</h3>
+                    <h3 class="card-title">Detalhes</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
+                                class="fas fa-minus"></i></button>
+                    </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <strong><i class="fas fa-book mr-1"></i> Education</strong>
+                    <strong><i class="fas fa-users mr-1 mb-2"></i> Membros iniciais</strong>
+                    @foreach ($group->initialMembers as $item)
+                        <p class="mb-0 text-muted">{{ $item->contact_name }}</p>
+                        <footer class="blockquote-footer mb-2">Administrador: <cite
+                                title="Administrator">{{ $item->administrator == 1 ? 'Sim' : 'Não' }}</cite></footer>
+                    @endforeach
+                    <hr>
+
+                    <strong><i class="fas fa-user-secret mr-1 mb-2"></i> Configurações do grupo</strong>
+
+                    <p class="mb-0 text-muted">Editar dados do grupo</p>
+                    <footer class="blockquote-footer mb-2">
+                        {{ $group->edit_data == 'all' ? 'Todos os participantes' : 'Somente admins' }}</footer>
+
+                    <p class="mb-0 text-muted">Enviar mensagem</p>
+                    <footer class="blockquote-footer mb-2">
+                        {{ $group->send_message == 'all' ? 'Todos os participantes' : 'Somente admins' }}</footer>
+
+                    <hr>
+
+
+                    <strong><i class="far fa-file-alt mr-1"></i> Descrição</strong>
 
                     <p class="text-muted">
-                        B.S. in Computer Science from the University of Tennessee at Knoxville
+                        {!! nl2br(e($group->description)) !!}
                     </p>
 
                     <hr>
 
-                    <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
+                    <strong><i class="fas fa-link mr-1"></i> Link</strong>
 
-                    <p class="text-muted">Malibu, California</p>
-
-                    <hr>
-
-                    <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
-
-                    <p class="text-muted">
-                        <span class="tag tag-danger">UI Design</span>
-                        <span class="tag tag-success">Coding</span>
-                        <span class="tag tag-info">Javascript</span>
-                        <span class="tag tag-warning">PHP</span>
-                        <span class="tag tag-primary">Node.js</span>
-                    </p>
-
-                    <hr>
-
-                    <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
-
-                    <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim
-                        neque.</p>
+                    <p class="text-muted"><a id="group_link" target="_blank" href="{{ $group->url }}"
+                            class="mr-2">{{ $group->url }}</a><button type="button" id="copy_link"
+                            class="btn btn-default btn-sm" data-toggle="tooltip" data-html="true"
+                            title="<b>Copiar</b> link"><i class="far fa-clipboard"></i></button></p>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -453,4 +460,69 @@
         </div>
         <!-- /.col -->
     </div>
+@endsection
+
+@section('js')
+    <script>
+        // Tooltip
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+
+        $('[data-toggle="tooltip"]').tooltip({
+            trigger: 'hover'
+        })
+
+        // Copy to Clipboard
+        function fallbackCopyTextToClipboard(text) {
+            var textArea = document.createElement("textarea");
+            textArea.value = text;
+
+            // Avoid scrolling to bottom
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                var successful = document.execCommand('copy');
+                var msg = successful ? 'successful' : 'unsuccessful';
+                console.log('Fallback: Copying text command was ' + msg);
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+            }
+
+            document.body.removeChild(textArea);
+        }
+
+        function copyTextToClipboard(text) {
+            if (!navigator.clipboard) {
+                fallbackCopyTextToClipboard(text);
+                return;
+            }
+            navigator.clipboard.writeText(text).then(function() {
+                console.log('Async: Copying to clipboard was successful!');
+            }, function(err) {
+                console.error('Async: Could not copy text: ', err);
+            });
+        }
+
+        // Botão copiar o link para a área de transferência
+        $(document).ready(function() {
+            $("#copy_link").click(function() {
+                copyTextToClipboard($("#group_link").attr('href'));
+
+                $('#copy_link').attr('data-original-title', 'Link <b>Copiado</b>').tooltip('show');
+            });
+        });
+
+        $('#copy_link').on('hidden.bs.tooltip', function() {
+            $('#copy_link').attr('data-original-title', '<b>Copiar</b> Link');
+        })
+
+    </script>
+
 @endsection

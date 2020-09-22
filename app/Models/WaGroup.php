@@ -18,7 +18,7 @@ class WaGroup extends Model
         return $this->belongsTo(Segmentation::class, 'segmentations_id', 'id');
     }
 
-    public function groupMembers()
+    public function initialMembers()
     {
         return $this->hasMany(WaGroupInitialMember::class, 'wa_groups_id', 'id' );
     }
