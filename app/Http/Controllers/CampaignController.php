@@ -121,8 +121,15 @@ class CampaignController extends Controller
      */
     public function update(Request $request, Campaign $campaign)
     {
+        echo 'aqui';
+        die();
         $campaign->name = $request->name;
         $campaign->description = $request->description;
+        $campaign->start = formatDateAndTime($request->start, 'Y/m/d');
+        $campaign->end = formatDateAndTime($request->end, 'Y/m/d');
+        $campaign->start_monitoring = formatDateAndTime($request->start_monitoring, 'Y/m/d H:i:s');
+        $campaign->stop_monitoring = formatDateAndTime($request->stop_monitoring, 'Y/m/d H:i:s');
+        dd($campaign);
         $campaign->save();
         if ($campaign)
             return redirect()->route("campaigns.index")->with('success', 'Campanha alterada com sucesso!');

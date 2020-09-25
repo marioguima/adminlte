@@ -27,7 +27,7 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <form role="form" method="POST" action="{{ route('campaigns.update', ['campaign' => $campaign]) }}">
+                    <form role="form" method="POST" action="{{ route('campaigns.update', ['campaign' => $campaign->id]) }}">
                         @csrf
                         @method('PUT')
 
@@ -53,6 +53,33 @@
                                         placeholder="Digite a descrição ...">{{ $campaign->description }}</textarea>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label" for="seats">Início da campanha</label>
+                                    <input type="text" id="start" name="start" class="form-control col-sm-4"
+                                        placeholder="Informe a data ..." value="{{ formatDateAndTime($campaign->start, 'd/m/Y') }}" required>
+                                    <label class="col-sm-2 col-form-label" for="seats">Fim da campanha</label>
+                                    <input type="text" id="end" name="end" class="form-control col-sm-4"
+                                        placeholder="Informe a data ..." value="{{ formatDateAndTime($campaign->stop, 'd/m/Y') }}" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label" for="seats">Começar monitorar</label>
+                                    <input type="text" id="start" name="start" class="form-control col-sm-4"
+                                        placeholder="Informe a data ..." value="{{ formatDateAndTime($campaign->start_monitoring, 'd/m/Y H:i:s') }}" required>
+                                    <label class="col-sm-2 col-form-label" for="seats">Parar de monitorar</label>
+                                    <input type="text" id="end" name="end" class="form-control col-sm-4"
+                                        placeholder="Informe a data ..."
+                                        value="{{ formatDateAndTime($campaign->stop_monitoring, 'd/m/Y H:i:s') }}" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-sm-12">
                                 <div class="card-footer">
                                     <a href="{{ URL::previous() }}" class="btn btn-danger">Cancelar</a>

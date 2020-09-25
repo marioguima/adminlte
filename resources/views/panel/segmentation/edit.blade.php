@@ -31,7 +31,7 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <form role="form" method="POST"
-                        action="{{ route('segmentations.update', ['segmentation' => $segmentation]) }}">
+                        action="{{ route('segmentations.update', ['segmentation' => $segmentation->id]) }}">
                         @csrf
                         @method('PUT')
 
