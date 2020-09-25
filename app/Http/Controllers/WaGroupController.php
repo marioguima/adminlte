@@ -84,7 +84,7 @@ class WaGroupController extends Controller
         $waGroup->edit_data = $request->edit_data;
         $waGroup->send_message = $request->send_message;
         $waGroup->seats = $request->seats;
-        $waGroup->save($request->all());
+        $waGroup->save();
 
         // Upload da imagem do grupo
         $image = $request->file('uploadFile')->store('groups/' . $waGroup->id);

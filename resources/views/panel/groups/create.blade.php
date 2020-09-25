@@ -13,7 +13,7 @@
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{ route('panel.index') }}">Painel</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('groups.index') }}">Segmentações</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('groups.index') }}">Grupos</a></li>
                 <li class="breadcrumb-item active">Criar</li>
             </ol>
         </div><!-- /.col -->

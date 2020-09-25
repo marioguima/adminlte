@@ -16,8 +16,8 @@ class CreateCampaignsTable extends Migration
         Schema::create('campaigns', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->dateTime('start')->comment('Início da campanha');
-            $table->dateTime('end')->comment('Fim da campanha');
+            $table->date('start')->comment('Início da campanha');
+            $table->date('end')->comment('Fim da campanha');
             $table->dateTime('start_monitoring')->comment('Início do monitoramento dos grupos da campanha');
             $table->dateTime('stop_monitoring')->comment('Fim do monitoramento dos grupos da campanha');
             $table->text('description')->nullable();

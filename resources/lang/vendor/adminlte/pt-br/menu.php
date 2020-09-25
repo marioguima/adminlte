@@ -21,4 +21,5 @@ return [
     'campaigns'                     => 'Campanhas',
     'segmentations'                 => 'Segmentações',
     'groups'                        => 'Grupos',
+    'messages'                      => 'Mensagens',
 ];

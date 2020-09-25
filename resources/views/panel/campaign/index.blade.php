@@ -69,8 +69,8 @@
                                             @endforeach
                                         </ul>
                                     </td>
-                                    <td>{{ formatDateAndTime($campaign->start, 'd/m/yy H:i:s') }} </td>
-                                    <td>{{ formatDateAndTime($campaign->end, 'd/m/yy H:i:s') }} </td>
+                                    <td>{{ formatDateAndTime($campaign->start, 'd/m/yy') }} </td>
+                                    <td>{{ formatDateAndTime($campaign->end, 'd/m/yy') }} </td>
                                     <td>{{ formatDateAndTime($campaign->start_monitoring, 'd/m/yy H:i:s') }} </td>
                                     <td>{{ formatDateAndTime($campaign->stop_monitoring, 'd/m/yy H:i:s') }} </td>
                                     <td class="text-center py-0 align-middle">

@@ -262,6 +262,11 @@ return [
             'url'  => 'painel/grupos',
             'icon' => 'fas fa-fw fa-user-friends',
         ],
+        [
+            'text' => 'messages',
+            'url'  => 'painel/mensagens',
+            'icon' => 'fas fa-fw fa-comments',
+        ],
     ],
 
     /*
