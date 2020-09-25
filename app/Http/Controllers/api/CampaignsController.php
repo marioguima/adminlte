@@ -17,13 +17,16 @@ class CampaignsController extends Controller
     {
         $campaign = new Campaign();
         $data = ['campaigns' => $campaign
-            ->select(['id','name','start','end','start_monitoring','stop_monitoring','description'])
+            ->whereRaw('now() BETWEEN start_monitoring AND stop_monitoring')
+            ->select(['id', 'name', 'start', 'end', 'start_monitoring', 'stop_monitoring', 'description'])
             ->with([
                 'segmentations:id,campaigns_id,name,description',
                 'segmentations.groups:id,segmentations_id,name,image_path,description,edit_data,send_message,seats,occuped_seats,people_left,url',
                 'segmentations.groups.initialMembers:id,wa_groups_id,contact_name,administrator'
             ])
             ->get()];
+            // para depurar uma query basta trocar get() por toSql()
+            // dd($data);
 
         return response()->json($data);
     }
