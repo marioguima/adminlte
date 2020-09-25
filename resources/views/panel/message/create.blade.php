@@ -54,7 +54,6 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- <h5>Mensagem</h5> --}}
                         <caption>Corpo da mensagem</caption>
                         <div class="row">
                             <table class="table" id="items_table">
@@ -95,7 +94,7 @@
             // Cria a primeira linha para adicionar novas linhas
             new_row(0);
 
-            function new_row(count) {
+            function new_row(nLines) {
                 var html = '<tr class="d-flex">';
                 html += '<td class="col-9">';
                 html +=
@@ -111,17 +110,15 @@
                 html += '<option value="contact" disabled>Contato</option>';
                 html += '</select>';
                 html += '</td>';
-                if (count > 0) {
+                if (nLines > 0) {
                     html += '<td class="col-1">';
                     html += '<div class="btn-group btn-group-sm">';
                     html +=
                         '<button type="button" name="add" class="btn btn-success add-item">+</button>';
                     html +=
-                        '<button type="button" name="remove" id="remove" class="btn btn-danger">X</button>';
+                        '<button type="button" name="remove" class="btn btn-danger remove-item">X</button>';
                     html += '</div>';
                     html += '</td>';
-                    html += '</tr>';
-                    $('#items_table > tbody').append(html);
                 } else {
                     html += '<td class="col-1">';
                     html += '<div class="btn-group btn-group-sm">';
@@ -129,27 +126,40 @@
                         '<button type="button" name="add" class="btn btn-success add-item">+</button>';
                     html += '</div>';
                     html += '</td>';
-                    html += '</tr>';
-                    $('#items_table > tbody').html(html);
                 }
+                html += '</tr>';
+                $('#items_table > tbody').append(html);
             }
 
             $(document).on('click', '.add-item', function() {
-                // parentElement => td
-                // .parentElement => tr
-                //  .parentElement => tbody
-                //   .childNodes => all tr
-                //    .length => count tr
-                var count = this.parentElement.parentElement.parentElement.parentElement.childNodes.length;
-                new_row(count);
+                var nLines = $('#items_table > tbody')[0].children.length;
+                new_row(nLines);
+                addRemoveButtonFirstItem();
             });
 
-            $(document).on('click', '#remove', function() {
-                // parentElement => td
-                //  .parentElement => div
+            $(document).on('click', '.remove-item', function() {
+                // remove a linha
+                // .parentElement => div
+                //  .parentElement => td
                 //   .parentElement => tr
                 this.parentElement.parentElement.parentElement.remove();
+                addRemoveButtonFirstItem();
             });
+
+            function addRemoveButtonFirstItem() {
+                var nLines = $('#items_table > tbody')[0].children.length;
+                var html = '<td>';
+                html += '<div class="btn-group btn-group-sm">';
+                if (nLines == 1) {
+                    html += '  <button type="button" name="add" class="btn btn-success add-item">+</button>';
+                } else {
+                    html += '  <button type="button" name="add" class="btn btn-success add-item">+</button>';
+                    html += '  <button type="button" name="remove" class="btn btn-danger remove-item">X</button>';
+                }
+                html += '</div>';
+                html += '</td>';
+                $('#items_table > tbody > tr > td:nth-of-type(3)').replaceWith(html);
+            }
         });
 
     </script>

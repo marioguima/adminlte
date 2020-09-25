@@ -2,6 +2,10 @@
 
 @section('title', 'Automation - Campanha - Editar')
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('public/vendor/daterangepicker/daterangepicker.css') }}">
+@endsection
+
 @section('content_header')
     <div class="row mb-2">
         <div class="col-sm-6">
@@ -59,10 +63,12 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label" for="seats">Início da campanha</label>
                                     <input type="text" id="start" name="start" class="form-control col-sm-4"
-                                        placeholder="Informe a data ..." value="{{ formatDateAndTime($campaign->start, 'd/m/Y') }}" required>
+                                        placeholder="Informe a data ..."
+                                        value="{{ formatDateAndTime($campaign->start, 'd/m/Y') }}" required>
                                     <label class="col-sm-2 col-form-label" for="seats">Fim da campanha</label>
                                     <input type="text" id="end" name="end" class="form-control col-sm-4"
-                                        placeholder="Informe a data ..." value="{{ formatDateAndTime($campaign->stop, 'd/m/Y') }}" required>
+                                        placeholder="Informe a data ..."
+                                        value="{{ formatDateAndTime($campaign->end, 'd/m/Y') }}" required>
                                 </div>
                             </div>
                         </div>
@@ -70,11 +76,13 @@
                             <div class="col-sm-12">
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label" for="seats">Começar monitorar</label>
-                                    <input type="text" id="start" name="start" class="form-control col-sm-4"
-                                        placeholder="Informe a data ..." value="{{ formatDateAndTime($campaign->start_monitoring, 'd/m/Y H:i:s') }}" required>
+                                    <input type="text" id="start_monitoring" name="start_monitoring"
+                                        class="form-control col-sm-4" placeholder="Informe a data ..."
+                                        value="{{ formatDateAndTime($campaign->start_monitoring, 'd/m/Y H:i:s') }}"
+                                        required>
                                     <label class="col-sm-2 col-form-label" for="seats">Parar de monitorar</label>
-                                    <input type="text" id="end" name="end" class="form-control col-sm-4"
-                                        placeholder="Informe a data ..."
+                                    <input type="text" id="stop_monitoring" name="stop_monitoring"
+                                        class="form-control col-sm-4" placeholder="Informe a data ..."
                                         value="{{ formatDateAndTime($campaign->stop_monitoring, 'd/m/Y H:i:s') }}" required>
                                 </div>
                             </div>
@@ -94,10 +102,24 @@
         </div>
         <!--/.col (right) -->
     </div>
-
-
 @endsection
 
+@section('js')
+    <script src="{{ asset('public/vendor/daterangepicker/moment.min.js') }}"></script>
+    <script src="{{ asset('public/vendor/daterangepicker/daterangepicker.js') }}"></script>
 
-@section('page_scripts')
+    {{-- <script>
+        $(function() {
+            $('input[name="start_monitoring"]').daterangepicker({
+                opens: 'left',
+                locale: {
+                    format: 'DD/MM/YYYY'
+                }
+            }, function(start, end, label) {
+                console.log("A nova seleação de data foi feita: " + start.format('DD/MM/YYYY') + ' to ' + end
+                    .format('DD/MM/YYYY'));
+            });
+        });
+
+    </script> --}}
 @endsection

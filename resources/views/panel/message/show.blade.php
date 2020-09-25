@@ -76,7 +76,7 @@
                                     @endif
 
                                     <div class="timeline-item" style="background: #e9eaec;">
-                                        <span class="time"><i class="fas fa-clock"></i> Aguardar 5 segundos</span>
+                                        {{-- <span class="time"><i class="fas fa-clock"></i> Aguardar 5 segundos</span> --}}
                                         <div class="timeline-header no-border">{!! html_entity_decode($item->whatsapp_markdown_to_html) !!}</div>
                                     </div>
                                 </div>

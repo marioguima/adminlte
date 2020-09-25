@@ -7,6 +7,7 @@ use App\Models\Segmentation;
 use App\Models\WaGroup;
 use App\Models\WaGroupInitialMember;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class WaGroupController extends Controller
 {
@@ -135,7 +136,16 @@ class WaGroupController extends Controller
      */
     public function edit(WaGroup $group)
     {
-        //
+        $user = Auth()->User();
+        $campaigns['data'] = Campaign::orderby('name', 'asc')->select('id', 'name')->get();
+        return view(
+            'panel.groups.edit',
+            [
+                'user' => $user,
+                'group' => $group,
+                'campaigns' => $campaigns
+            ]
+        );
     }
 
     /**
@@ -147,7 +157,44 @@ class WaGroupController extends Controller
      */
     public function update(Request $request, WaGroup $group)
     {
-        //
+        $group->name = $request->name;
+        $group->segmentations_id = $request->segmentations_id;
+        $group->name = $request->name;
+        $group->description = $request->description;
+        $group->edit_data = $request->edit_data;
+        $group->send_message = $request->send_message;
+        $group->seats = $request->seats;
+
+        // verifica se foi selecionada uma nova imagem
+        if ($request->hasFile('uploadFile')) {
+            // Exclui a imagem anterior
+            Storage::delete($group->image_path);
+
+            // Upload da imagem do grupo
+            $image = $request->file('uploadFile')->store('groups/' . $group->id);
+
+            // Atualiza o caminho da imagem do grupo
+            $group->image_path = $image;
+        }
+        $group->save();
+
+        // Exclui todos os membros iniciais
+        WaGroupInitialMember::where('wa_groups_id', $group->id)->delete();
+
+        // Salva os membros iniciais do grupo
+        for ($i = 0; $i < count($request->member_names); $i++) {
+            $initialMember = new WaGroupInitialMember();
+            $initialMember->wa_groups_id = $group->id;
+            $initialMember->contact_name = $request->member_names[$i];
+            $initialMember->administrator = $request->member_administrators[$i];
+            $initialMember->save();
+            unset($initialMember);
+        }
+
+        if ($group)
+            return redirect()->route("groups.index")->with('success', 'Mensagem alterada com sucesso!');
+
+        return redirect()->route('groups.index')->with('error', 'Ocorreu um erro ao alterar a mensagem');
     }
 
     /**
@@ -158,6 +205,10 @@ class WaGroupController extends Controller
      */
     public function destroy(WaGroup $group)
     {
+        // Exclui a imagem do grupo
+        Storage::delete($group->image_path);
+        Storage::deleteDirectory('groups/' . $group->id);
+
         $group->delete();
         return redirect()->route('groups.index');
     }

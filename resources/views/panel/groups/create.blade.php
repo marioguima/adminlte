@@ -3,6 +3,14 @@
 @section('title', 'Automation - Grupos - Criar')
 
 @section('css')
+    <style>
+        textarea {
+            resize: none;
+            overflow: hidden;
+            min-height: 40px;
+        }
+
+    </style>
 @endsection
 
 @section('content_header')
@@ -76,8 +84,8 @@
                                 <!-- textarea -->
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label" for="description">Descrição</label>
-                                    <textarea id="description" name="description" class="col-sm-10 form-control" rows="3"
-                                        placeholder="Digite a descrição ..."></textarea>
+                                    <textarea id="description" name="description" class="col-sm-10 form-control auto-grow"
+                                        oninput="auto_grow(this)" placeholder="Digite a descrição ..."></textarea>
                                 </div>
                             </div>
                         </div>
@@ -131,14 +139,15 @@
                             <div class="col-sm-12">
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label" for="uploadFile">Imagem</label>
-                                    <input class="col-sm-10 form-control" type="file" name="uploadFile" id="uploadFile" style="padding-left: 0; padding-top: 3px;">
+                                    <input class="col-sm-10 form-control" type="file" name="uploadFile" id="uploadFile"
+                                        style="padding-left: 0; padding-top: 3px;">
                                     <div class="col-sm-2"></div>
                                     <div class="col-sm-10 help-block">Melhor enquadramento com imagem no formato 500 x 361
                                         (largura x altura)</div>
                                 </div>
                             </div>
                         </div>
-                        <h5>Membros adicionais</h5>
+                        <h5>Membros iniciais</h5>
                         <div class="row">
                             <table class="table" id="initial_members_table">
                                 <thead>
@@ -166,8 +175,18 @@
 
 @section('js')
     <script>
+        function auto_grow(element) {
+            element.style.height = "5px";
+            element.style.height = (element.scrollHeight) + "px";
+        }
+
         // In your Javascript (external .js resource or <script> tag)
         $(document).ready(function() {
+            var elements = document.querySelectorAll(".auto-grow");
+            for (var el of elements) {
+                auto_grow(el);
+            }
+
             $.fn.select2.defaults.set("language", "pt-br");
 
             $('#campaigns_select').select2({
@@ -250,38 +269,63 @@
                 // html += 'class="form-control" value="' + count + '">';
                 html += '</td>';
                 if (count > 0) {
-                    html += '<td>';
+                    html += '<td class="col-1">';
+                    html += '<div class="btn-group btn-group-sm">';
                     html +=
-                        '<button type="button" name="remove" id="remove_member" class="btn btn-danger">X</button>';
+                        '<button type="button" name="add" class="btn btn-success add-item">+</button>';
+                    html +=
+                        '<button type="button" name="remove" class="btn btn-danger remove-item">X</button>';
+                    html += '</div>';
                     html += '</td>';
-                    html += '</tr>';
-                    $('#initial_members_table > tbody').append(html);
                 } else {
-                    html += '<td>';
+                    html += '<td class="col-1">';
+                    html += '<div class="btn-group btn-group-sm">';
                     html +=
-                        '<button type="button" name="add" id="add" class="btn btn-success">+</button>';
+                        '<button type="button" name="add" class="btn btn-success add-item">+</button>';
+                    html += '</div>';
                     html += '</td>';
-                    html += '</tr>';
-                    $('#initial_members_table > tbody').html(html);
                 }
+                html += '</tr>';
+                $('#initial_members_table > tbody').append(html);
             }
 
-            $('#add').click(function() {
-                // parentElement => td
-                // .parentElement => tr
-                //  .parentElement => tbody
-                //   .childNodes => all tr
-                //    .length => count tr
-                var count = this.parentElement.parentElement.parentElement.childNodes.length;
-                new_row(count);
+            $(document).on('click', '.add-item', function() {
+                // // .parentElement => div
+                // //  .parentElement => td
+                // //   .parentElement => tr
+                // //    .parentElement => tbody
+                // //     .childNodes => all tr
+                // //      .length => count tr
+                // var count = this.parentElement.parentElement.parentElement.childNodes.length;
+                // new_row(count);
+                var nLines = $('#initial_members_table > tbody')[0].children.length;
+                new_row(nLines);
+                addRemoveButtonFirstItem();
             });
 
-            $(document).on('click', '#remove_member', function() {
+            $(document).on('click', '.remove-item', function() {
                 // remove a linha
-                // parentElement => td
-                // .parentElement => tr
-                this.parentElement.parentElement.remove();
+                // .parentElement => div
+                //  .parentElement => td
+                //   .parentElement => tr
+                this.parentElement.parentElement.parentElement.remove();
+                addRemoveButtonFirstItem();
             });
+
+            function addRemoveButtonFirstItem() {
+                var nLines = $('#initial_members_table > tbody')[0].children.length;
+                var html = '<td>';
+                html += '<div class="btn-group btn-group-sm">';
+                if (nLines == 1) {
+                    html += '  <button type="button" name="add" class="btn btn-success add-item">+</button>';
+                } else {
+                    html += '  <button type="button" name="add" class="btn btn-success add-item">+</button>';
+                    html += '  <button type="button" name="remove" class="btn btn-danger remove-item">X</button>';
+                }
+                html += '</div>';
+                html += '</td>';
+                $('#initial_members_table > tbody > tr > td:nth-of-type(3)').replaceWith(html);
+            }
         });
 
     </script>

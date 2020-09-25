@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Campaign;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 
 class CampaignController extends Controller
@@ -75,8 +77,16 @@ class CampaignController extends Controller
      */
     public function store(Request $request)
     {
-        $store = $this->model->create($request->all());
-        if ($store)
+        $campaign = new Campaign();
+        $campaign->name = $request->name;
+        $campaign->description = $request->description;
+        $campaign->start = Carbon::createFromFormat('d/m/Y', $request->start)->format('Y-m-d');
+        $campaign->end = Carbon::createFromFormat('d/m/Y', $request->end)->format('Y-m-d');
+        $campaign->start_monitoring = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_monitoring)->format('Y-m-d H:i:s');
+        $campaign->stop_monitoring = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->format('Y-m-d H:i:s');
+        $campaign->save();
+
+        if ($campaign)
             return redirect()->route("campaigns.index")->with('success', 'Campanha cadastrada com sucesso!');
 
         return redirect()->route('campaigns.index')->with('error', 'Ocorreu um erro ao cadastrar a campanha');
@@ -121,15 +131,12 @@ class CampaignController extends Controller
      */
     public function update(Request $request, Campaign $campaign)
     {
-        echo 'aqui';
-        die();
         $campaign->name = $request->name;
         $campaign->description = $request->description;
-        $campaign->start = formatDateAndTime($request->start, 'Y/m/d');
-        $campaign->end = formatDateAndTime($request->end, 'Y/m/d');
-        $campaign->start_monitoring = formatDateAndTime($request->start_monitoring, 'Y/m/d H:i:s');
-        $campaign->stop_monitoring = formatDateAndTime($request->stop_monitoring, 'Y/m/d H:i:s');
-        dd($campaign);
+        $campaign->start = Carbon::createFromFormat('d/m/Y', $request->start)->format('Y-m-d');
+        $campaign->end = Carbon::createFromFormat('d/m/Y', $request->end)->format('Y-m-d');
+        $campaign->start_monitoring = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_monitoring)->format('Y-m-d H:i:s');
+        $campaign->stop_monitoring = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->format('Y-m-d H:i:s');
         $campaign->save();
         if ($campaign)
             return redirect()->route("campaigns.index")->with('success', 'Campanha alterada com sucesso!');
