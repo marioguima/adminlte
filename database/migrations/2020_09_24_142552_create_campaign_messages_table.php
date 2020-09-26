@@ -14,14 +14,15 @@ class CreateCampaignMessagesTable extends Migration
     public function up()
     {
         Schema::create('campaign_messages', function (Blueprint $table) {
-            $table->foreignId('campaigns_id')->constrained();
+            $table->id();
+            $table->foreignId('campaigns_id')->constrained()->onDelete('cascade');
             $table->foreignId('messages_id')->constrained();
             $table->enum('shot', ['immediate', 'date', 'relative']);
-            $table->dateTime('scheduler_date');
-            $table->integer('quantity');
-            $table->enum('unit', ['minutes', 'hours', 'days']);
-            $table->enum('trigger', ['before', 'after']);
-            $table->enum('momment', ['start_campaign', 'end_campaign', 'start_monitoring', 'end_monitoring']);
+            $table->dateTime('scheduler_date')->nullable();
+            $table->integer('quantity')->nullable();
+            $table->enum('unit', ['minutes', 'hours', 'days'])->nullable();
+            $table->enum('trigger', ['before', 'after'])->nullable();
+            $table->enum('momment', ['start_campaign', 'end_campaign', 'start_monitoring', 'end_monitoring'])->nullable();
             $table->timestamps();
             // Index
             $table->index(['campaigns_id', 'messages_id']);

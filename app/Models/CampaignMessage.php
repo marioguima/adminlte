@@ -10,7 +10,14 @@ class CampaignMessage extends Model
     use HasFactory;
 
     protected $fillable = [
-        'messages_id'
+        'campaigns_id',
+        'messages_id',
+        'shot',
+        'scheduler_date',
+        'quantity',
+        'unit',
+        'trigger',
+        'momment',
     ];
 
     public function messages()

@@ -142,12 +142,12 @@
                                             todos os campos vão ser enviados para o controle
                                             com a mesma quantidade de itens na lista/array --}}
                                             <div class="d-none">
-                                                <input name="shots[]" />
+                                                <input name="shots[]" value="immediate" />
                                                 <input name="quantities[]" />
                                                 <input name="units[]" />
                                                 <input name="triggers[]" />
-                                                <input name="momment[]" />
-                                                <input name="scheduler_date[]" />
+                                                <input name="momments[]" />
+                                                <input name="scheduler_dates[]" />
                                             </div>
                                         </td>
                                     </tr>
@@ -262,7 +262,7 @@
             html += '  </select>';
             html += '</td>';
             html += '<td class="relative d-none">';
-            html += '  <select class="form-control form-control-sm" tabindex="-1" aria-hidden="true" name="momment[]">';
+            html += '  <select class="form-control form-control-sm" tabindex="-1" aria-hidden="true" name="momments[]">';
             html += '    <option value="">...</option>';
             html += '    <option value="start_campaign">Iniciar campanha</option>';
             html += '    <option value="end_campaign">Finalizar campanha</option>';
@@ -274,7 +274,7 @@
             html += '  <div class="input-group date data-target-input="nearest">';
             html +=
                 '    <input type="text" class="form-control form-control-sm datetimepicker-input scheduler' + count +
-                '" data-target=".scheduler' + count + '" name="scheduler_date[]" autocomplete="off"/>';
+                '" data-target=".scheduler' + count + '" name="scheduler_dates[]" autocomplete="off"/>';
             html +=
                 '    <div class="input-group-append" data-target=".scheduler' + count + '" data-toggle="datetimepicker">';
             html += '      <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>';

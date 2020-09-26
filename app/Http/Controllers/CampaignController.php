@@ -98,11 +98,29 @@ class CampaignController extends Controller
         for ($i = 0; $i < count($request->messages_id); $i++) {
             $campaignMessage = new CampaignMessage();
             $campaignMessage->campaigns_id = $campaign->id;
-            $campaignMessage->messages_id = $request->messages_id->id;
+            $campaignMessage->messages_id = $request->messages_id[$i];
+
+            // 'immediate', 'date', 'relative'
+            $campaignMessage->shot = $request->shots[$i];
+
+            if ($request->shots[$i] == 'date') {
+                $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i', $request->scheduler_dates[$i])->format('Y-m-d H:i');
+            } elseif ($request->shots[$i] == 'relative') {
+                // Integer (quantidade)
+                $campaignMessage->quantity = $request->quantities[$i];
+
+                // 'minutes', 'hours', 'days'
+                $campaignMessage->unit = $request->units[$i];
+
+                // 'before', 'after'
+                $campaignMessage->trigger = $request->triggers[$i];
+
+                // 'start_campaign', 'end_campaign', 'start_monitoring', 'end_monitoring'
+                $campaignMessage->momment = $request->momments[$i];
+            }
             $campaignMessage->save();
             unset($campaignMessage);
         }
-
         if ($campaign)
             return redirect()->route("campaigns.index")->with('success', 'Campanha cadastrada com sucesso!');
 
