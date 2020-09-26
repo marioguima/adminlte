@@ -249,8 +249,6 @@
             });
 
             // Membros iniciais do grupo
-            // let row_number = 1;
-
             // Cria a primeira linha para adicionar um membro
             new_row(0);
 
@@ -290,14 +288,6 @@
             }
 
             $(document).on('click', '.add-item', function() {
-                // // .parentElement => div
-                // //  .parentElement => td
-                // //   .parentElement => tr
-                // //    .parentElement => tbody
-                // //     .childNodes => all tr
-                // //      .length => count tr
-                // var count = this.parentElement.parentElement.parentElement.childNodes.length;
-                // new_row(count);
                 var nLines = $('#initial_members_table > tbody')[0].children.length;
                 new_row(nLines);
                 addRemoveButtonFirstItem();

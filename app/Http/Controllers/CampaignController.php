@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Campaign;
+use App\Models\Message;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
@@ -63,9 +64,13 @@ class CampaignController extends Controller
     public function create()
     {
         $user = Auth()->User();
+        $messages = Message::all();
         return view(
             'panel.campaign.create',
-            ['user' => $user]
+            [
+                'user' => $user,
+                'messages' => $messages
+            ]
         );
     }
 
