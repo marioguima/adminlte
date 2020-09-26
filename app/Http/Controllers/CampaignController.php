@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Campaign;
+use App\Models\CampaignMessage;
 use App\Models\Message;
 use Carbon\Carbon;
 use DateTime;
@@ -82,6 +83,8 @@ class CampaignController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
+
         $campaign = new Campaign();
         $campaign->name = $request->name;
         $campaign->description = $request->description;
@@ -90,6 +93,15 @@ class CampaignController extends Controller
         $campaign->start_monitoring = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_monitoring)->format('Y-m-d H:i:s');
         $campaign->stop_monitoring = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->format('Y-m-d H:i:s');
         $campaign->save();
+
+        // Salva sequência de mensagens
+        for ($i = 0; $i < count($request->messages_id); $i++) {
+            $campaignMessage = new CampaignMessage();
+            $campaignMessage->campaigns_id = $campaign->id;
+            $campaignMessage->messages_id = $request->messages_id->id;
+            $campaignMessage->save();
+            unset($campaignMessage);
+        }
 
         if ($campaign)
             return redirect()->route("campaigns.index")->with('success', 'Campanha cadastrada com sucesso!');
