@@ -53,13 +53,9 @@
                             <div class="col-sm-12">
                                 <!-- textarea -->
                                 <div class="form-group row">
-                                    <div class="input-group">
-
-
-                                        <label class="col-sm-2 col-form-label" for="description">Descrição</label>
-                                        <textarea id="description" name="description" class="form-control col-sm-10"
-                                            rows="3" placeholder="Digite a descrição ..."></textarea>
-                                    </div>
+                                    <label class="col-sm-2 col-form-label" for="description">Descrição</label>
+                                    <textarea id="description" name="description" class="form-control col-sm-10" rows="3"
+                                        placeholder="Digite a descrição ..."></textarea>
                                 </div>
                             </div>
                         </div>
@@ -203,7 +199,8 @@
         });
         $(function() {
             $('#start_monitoring, #stop_monitoring').datetimepicker({
-                locale: 'pt-BR'
+                locale: 'pt-BR',
+                format: 'L LTS',
             });
         });
 

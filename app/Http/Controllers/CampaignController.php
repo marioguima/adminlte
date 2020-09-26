@@ -83,7 +83,7 @@ class CampaignController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
 
         $campaign = new Campaign();
         $campaign->name = $request->name;
