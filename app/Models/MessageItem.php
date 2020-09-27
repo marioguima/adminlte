@@ -14,6 +14,11 @@ class MessageItem extends Model
         'value',
     ];
 
+    protected $appends = [
+        'type_name',
+        'whatsapp_markdown_to_html',
+    ];
+
     /**
      * Obter o nome do tipo
      * 

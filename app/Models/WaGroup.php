@@ -27,7 +27,6 @@ class WaGroup extends Model
         'full_image_path',
     ];
 
-
     public function segmentation()
     {
         return $this->belongsTo(Segmentation::class, 'segmentations_id', 'id');

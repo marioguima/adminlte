@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CampaignMessage extends Model
+class naousar_CampaignMessage extends Model
 {
     use HasFactory;
 
@@ -20,8 +20,8 @@ class CampaignMessage extends Model
         'moment',
     ];
 
-    public function messages()
-    {
-        return $this->hasMany(Message::class,  'messages_id', 'id');
-    }
+    // public function messages()
+    // {
+    //     return $this->hasMany(Message::class,  'messages_id', 'id');
+    // }
 }

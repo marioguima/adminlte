@@ -3,6 +3,7 @@
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\SegmentationController;
+use App\Http\Controllers\TestesController;
 use App\Http\Controllers\WaGroupController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -20,3 +21,6 @@ Route::resource('/painel/mensagens', MessageController::class)->names('messages'
 Route::get('/painel/grupos/segmentacoes/{campaign}', [WaGroupController::class, 'getSegmentations'])->name('groups.segmentations.fetch');
 
 Auth::routes();
+
+Route::get('/testes/mensagens/{mensagem}', [TestesController::class, 'mensagens']);
+Route::get('/testes/campanhas/{campanha}', [TestesController::class, 'campanhas']);

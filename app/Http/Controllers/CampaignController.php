@@ -97,9 +97,10 @@ class CampaignController extends Controller
 
         // Salva sequência de mensagens
         for ($i = 0; $i < count($request->messages_id); $i++) {
-            $campaignMessage = new CampaignMessage();
-            $campaignMessage->campaigns_id = $campaign->id;
-            $campaignMessage->messages_id = $request->messages_id[$i];
+            $campaignMessage = Message::find($request->messages_id[$i]);
+            // $campaignMessage = new Message()->campaigns();
+            $campaignMessage->campaign_id = $campaign->id;
+            $campaignMessage->message_id = $request->messages_id[$i];
 
             // 'immediate', 'date', 'relative'
             $campaignMessage->shot = $request->shots[$i];
@@ -253,13 +254,13 @@ class CampaignController extends Controller
         $campaign->save();
 
         // Exclui a sequência de mensagens
-        CampaignMessage::where('campaigns_id', $campaign->id)->delete();
+        CampaignMessage::where('campaign_id', $campaign->id)->delete();
 
         // Salva sequência de mensagens
         for ($i = 0; $i < count($request->messages_id); $i++) {
             $campaignMessage = new CampaignMessage();
-            $campaignMessage->campaigns_id = $campaign->id;
-            $campaignMessage->messages_id = $request->messages_id[$i];
+            $campaignMessage->campaign_id = $campaign->id;
+            $campaignMessage->message_id = $request->message_id[$i];
 
             // 'immediate', 'date', 'relative'
             $campaignMessage->shot = $request->shots[$i];

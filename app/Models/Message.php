@@ -17,4 +17,9 @@ class Message extends Model
     {
         return $this->hasMany(MessageItem::class,  'messages_id', 'id');
     }
+
+    public function campaigns()
+    {
+        return $this->belongsToMany(Campaign::class, 'campaign_messages', 'messages_id', 'campaigns_id');
+    }
 }

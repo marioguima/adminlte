@@ -23,8 +23,12 @@ class Campaign extends Model
         return $this->hasMany(Segmentation::class, 'campaigns_id', 'id');
     }
 
+    // public function messages()
+    // {
+    //     return $this->hasMany(CampaignMessage::class, 'campaigns_id', 'id');
+    // }
     public function messages()
     {
-        return $this->hasMany(CampaignMessage::class, 'campaigns_id', 'id');
+        return $this->belongsToMany(Message::class);
     }
 }

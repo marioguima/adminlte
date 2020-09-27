@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCampaignMessagesTable extends Migration
+class CreateCampaignMessageTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateCampaignMessagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('campaign_messages', function (Blueprint $table) {
+        Schema::create('campaign_message', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('campaigns_id')->constrained()->onDelete('cascade');
-            $table->foreignId('messages_id')->constrained();
+            $table->foreignId('campaign_id')->constrained()->onDelete('cascade');
+            $table->foreignId('message_id')->constrained();
             $table->enum('shot', ['immediate', 'date', 'relative']);
             $table->dateTime('scheduler_date')->nullable();
             $table->integer('quantity')->nullable();
@@ -25,7 +25,7 @@ class CreateCampaignMessagesTable extends Migration
             $table->enum('moment', ['start_campaign', 'end_campaign', 'start_monitoring', 'stop_monitoring'])->nullable();
             $table->timestamps();
             // Index
-            $table->index(['campaigns_id', 'messages_id']);
+            $table->index(['campaign_id', 'message_id']);
         });
     }
 
