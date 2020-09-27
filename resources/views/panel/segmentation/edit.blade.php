@@ -49,7 +49,7 @@
                                         <option value="" disabled selected></option>
                                         @foreach ($campaigns as $campaign)
                                             <option value="{{ $campaign->id }}"
-                                                {{ $segmentation->campaigns_id == $campaign->id ? 'selected="selected"' : '' }}>
+                                                {{ $segmentation->campaigns_id == $campaign->id ? 'selected' : '' }}>
                                                 {{ $campaign->name }}</option>
                                         @endforeach
                                     </select>

@@ -22,7 +22,7 @@ class CreateCampaignMessagesTable extends Migration
             $table->integer('quantity')->nullable();
             $table->enum('unit', ['minutes', 'hours', 'days'])->nullable();
             $table->enum('trigger', ['before', 'after'])->nullable();
-            $table->enum('momment', ['start_campaign', 'end_campaign', 'start_monitoring', 'end_monitoring'])->nullable();
+            $table->enum('moment', ['start_campaign', 'end_campaign', 'start_monitoring', 'stop_monitoring'])->nullable();
             $table->timestamps();
             // Index
             $table->index(['campaigns_id', 'messages_id']);

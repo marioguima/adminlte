@@ -17,7 +17,7 @@ class CampaignMessage extends Model
         'quantity',
         'unit',
         'trigger',
-        'momment',
+        'moment',
     ];
 
     public function messages()

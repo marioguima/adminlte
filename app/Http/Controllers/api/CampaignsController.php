@@ -22,7 +22,8 @@ class CampaignsController extends Controller
             ->with([
                 'segmentations:id,campaigns_id,name,description',
                 'segmentations.groups:id,segmentations_id,name,image_path,description,edit_data,send_message,seats,occuped_seats,people_left,url',
-                'segmentations.groups.initialMembers:id,wa_groups_id,contact_name,administrator'
+                'segmentations.groups.initialMembers:id,wa_groups_id,contact_name,administrator',
+                'messages:campaigns_id,messages_id,shot,scheduler_date,quantity,unit,trigger,moment',
             ])
             ->get()];
             // para depurar uma query basta trocar get() por toSql()

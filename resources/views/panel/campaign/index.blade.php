@@ -49,7 +49,7 @@
                                 <th class="text-center">Início</th>
                                 <th class="text-center">Fim</th>
                                 <th class="text-center">Início</th>
-                                <th class="text-center">Fim</th>
+                                <th class="text-center" style="border-right-width: 1px;">Fim</th>
                             </tr>
                         </thead>
                         <tbody>

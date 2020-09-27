@@ -5,7 +5,6 @@
 @section('css')
     <link rel="stylesheet"
         href="{{ asset('public/vendor/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
-
 @endsection
 
 @section('content_header')
@@ -62,7 +61,7 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label" for="seats">Início da campanha</label>
+                                    <label class="col-sm-2 col-form-label" for="start">Início da campanha</label>
                                     <div class="input-group date col-sm-4" id="start" data-target-input="nearest">
                                         <input type="text" class="form-control datetimepicker-input"
                                             data-target="#start_monitoring" name="start" placeholder="Informe a data ..."
@@ -146,7 +145,7 @@
                                                 <input name="quantities[]" />
                                                 <input name="units[]" />
                                                 <input name="triggers[]" />
-                                                <input name="momments[]" />
+                                                <input name="moments[]" />
                                                 <input name="scheduler_dates[]" />
                                             </div>
                                         </td>
@@ -262,12 +261,12 @@
             html += '  </select>';
             html += '</td>';
             html += '<td class="relative d-none">';
-            html += '  <select class="form-control form-control-sm" tabindex="-1" aria-hidden="true" name="momments[]">';
+            html += '  <select class="form-control form-control-sm" tabindex="-1" aria-hidden="true" name="moments[]">';
             html += '    <option value="">...</option>';
             html += '    <option value="start_campaign">Iniciar campanha</option>';
             html += '    <option value="end_campaign">Finalizar campanha</option>';
             html += '    <option value="start_monitoring">Iniciar monitoramento</option>';
-            html += '    <option value="end_monitoring">Finalizar monitoramento</option>';
+            html += '    <option value="stop_monitoring">Finalizar monitoramento</option>';
             html += '  </select>';
             html += '</td>';
             html += '<td colspan="3" class="date">';
@@ -296,7 +295,6 @@
         $(document).on('click', '.add-item', function() {
             var nLines = $('#messages_table > tbody')[0].children.length;
             new_row(nLines);
-            // addRemoveButtonFirstItem();
             $('.scheduler' + nLines).datetimepicker({
                 locale: 'pt-BR'
             });
@@ -308,23 +306,7 @@
             //  .parentElement => td
             //   .parentElement => tr
             this.parentElement.parentElement.parentElement.remove();
-            // addRemoveButtonFirstItem();
         });
-
-        function addRemoveButtonFirstItem() {
-            var nLines = $('#messages_table > tbody')[0].children.length;
-            var html = '<td>';
-            html += '<div class="btn-group btn-group-sm">';
-            if (nLines == 1) {
-                html += '  <button type="button" name="add" class="btn btn-success add-item">+</button>';
-            } else {
-                html += '  <button type="button" name="add" class="btn btn-success add-item">+</button>';
-                html += '  <button type="button" name="remove" class="btn btn-danger remove-item">X</button>';
-            }
-            html += '</div>';
-            html += '</td>';
-            $('#messages_table > tbody > tr > td:nth-of-type(3)').replaceWith(html);
-        }
 
     </script>
 @endsection

@@ -138,11 +138,6 @@
                 'targets': [4], // column index (start from 0)
                 'orderable': false, // set orderable false for selected columns
             }],
-            "order": [
-                [4, 'desc'],
-                [1, 'asc'],
-                [2, 'asc']
-            ],
             "language": {
                 "sEmptyTable": "Nenhum registro encontrado",
                 "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
