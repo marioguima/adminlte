@@ -125,12 +125,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($campaign->messages as $index => $message)
+                                    @forelse ($campaign->messages as $index => $message)
                                         <tr>
-                                            {{-- <td>{{$message}}</td> --}}
                                             <td>
-                                                <select class="form-control form-control-sm" tabindex="-1"
-                                                    aria-hidden="true" name="messages_id[]">
+                                                <select class="form-control form-control-sm" tabindex="-1" aria-hidden="true"
+                                                    name="messages_id[]">
                                                     <option value="" disabled hidden>Selecione ...</option>
                                                     @foreach ($messages as $item)
                                                         <option value="{{ $item->id }}"
@@ -148,8 +147,7 @@
                                                     </div>
                                                     <div class="d-none">
                                                         <input name="shots[]" value="{{ $message->pivot->shot }}" />
-                                                        <input name="quantities[]"
-                                                            value="{{ $message->pivot->quantity }}" />
+                                                        <input name="quantities[]" value="{{ $message->pivot->quantity }}" />
                                                         <input name="units[]" value="{{ $message->pivot->unit }}" />
                                                         <input name="triggers[]" value="{{ $message->pivot->trigger }}" />
                                                         <input name="moments[]" value="{{ $message->pivot->moment }}" />
@@ -171,13 +169,11 @@
                                                         </option>
                                                     </select>
                                                 </td>
-                                                <td
-                                                    class="relative {{ $message->pivot->shot == 'relative' ? '' : 'd-none' }}">
+                                                <td class="relative {{ $message->pivot->shot == 'relative' ? '' : 'd-none' }}">
                                                     <input type="text" size="1" class="form-control form-control-sm"
                                                         name="quantities[]" value="{{ $message->pivot->quantity }}" />
                                                 </td>
-                                                <td
-                                                    class="relative {{ $message->pivot->shot == 'relative' ? '' : 'd-none' }}">
+                                                <td class="relative {{ $message->pivot->shot == 'relative' ? '' : 'd-none' }}">
                                                     <select class="form-control form-control-sm" tabindex="-1"
                                                         aria-hidden="true" name="units[]">
                                                         <option value="">...</option>
@@ -193,8 +189,7 @@
                                                         </option>
                                                     </select>
                                                 </td>
-                                                <td
-                                                    class="relative {{ $message->pivot->shot == 'relative' ? '' : 'd-none' }}">
+                                                <td class="relative {{ $message->pivot->shot == 'relative' ? '' : 'd-none' }}">
                                                     <select class="form-control form-control-sm" tabindex="-1"
                                                         aria-hidden="true" name="triggers[]">
                                                         <option value="">...</option>
@@ -208,8 +203,7 @@
                                                         </option>
                                                     </select>
                                                 </td>
-                                                <td
-                                                    class="relative {{ $message->pivot->shot == 'relative' ? '' : 'd-none' }}">
+                                                <td class="relative {{ $message->pivot->shot == 'relative' ? '' : 'd-none' }}">
                                                     <select class="form-control form-control-sm" tabindex="-1"
                                                         aria-hidden="true" name="moments[]">
                                                         <option value="">...</option>
@@ -235,11 +229,9 @@
                                                             data-target=".scheduler' + count + '" name="scheduler_dates[]"
                                                             autocomplete="off"
                                                             value="{{ formatDateAndTime($message->pivot->scheduler_date, 'd/m/Y H:i') }}" />
-                                                        <div class="input-group-append"
-                                                            data-target=".scheduler' + count + '"
+                                                        <div class="input-group-append" data-target=".scheduler' + count + '"
                                                             data-toggle="datetimepicker">
-                                                            <div class="input-group-text"><i
-                                                                    class="far fa-calendar-alt"></i>
+                                                            <div class="input-group-text"><i class="far fa-calendar-alt"></i>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -257,7 +249,36 @@
                                                 </td>
                                             @endif
                                         </tr>
-                                    @endforeach
+
+                                    @empty
+                                        <tr>
+                                            <td>
+                                                <select class="form-control form-control-sm" tabindex="-1" aria-hidden="true"
+                                                    name="messages_id[]">
+                                                    <option value="" disabled selected hidden>Selecione ...</option>
+                                                    @foreach ($messages as $message)
+                                                        <option value="{{ $message->id }}">{{ $message->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td colspan="5" class="align-middle">Boas-vindas - Primeira mensagem</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button type="button" name="add" class="btn btn-success add-item">+</button>
+                                                </div>
+
+                                                <div class="d-none">
+                                                    <input name="shots[]" value="immediate" />
+                                                    <input name="quantities[]" />
+                                                    <input name="units[]" />
+                                                    <input name="triggers[]" />
+                                                    <input name="moments[]" />
+                                                    <input name="scheduler_dates[]" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforelse
+
                                 </tbody>
                             </table>
                         </div>
@@ -279,142 +300,142 @@
 @endsection
 
 @section('js')
-    <script src="{{ asset('public/vendor/moment/moment-with-locales.min.js') }}"></script>
-    <script src="{{ asset('public/vendor/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
+<script src="{{ asset('public/vendor/moment/moment-with-locales.min.js') }}"></script>
+<script src="{{ asset('public/vendor/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
-    <script>
-        $(function() {
-            $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
-                icons: {
-                    time: 'far fa-clock',
-                    date: 'far fa-calendar-alt',
-                    up: 'fas fa-arrow-up',
-                    down: 'fas fa-arrow-down',
-                    previous: 'fas fa-chevron-left',
-                    next: 'fas fa-chevron-right',
-                    today: 'fas fa-calendar-check-o',
-                    clear: 'fas fa-trash',
-                    close: 'fas fa-times'
-                }
-            });
-        });
-        $(function() {
-            $('#start, #end').datetimepicker({
-                locale: 'pt-BR',
-                format: 'L',
-            });
-        });
-        $(function() {
-            $('#start_monitoring, #stop_monitoring').datetimepicker({
-                locale: 'pt-BR',
-                format: 'L LTS',
-            });
-        });
-
-        function changeShot(element) {
-            // Limpa os campos do relative
-            $(element).parent().parent().find('td.relative>input').val('');
-            $(element).parent().parent().find('td.relative>select').val('');
-
-            // Limpando a data
-            $(element).parent().parent().find('td.date>div>input').val('');
-
-            if (element.value == 'relative') {
-                // Mostrando os relativos
-                $(element).parent().parent().children('.relative').removeClass('d-none');
-                // Escondendo a data
-                $(element).parent().parent().children('.date').addClass('d-none');
-            } else {
-                // Escondendo os relativos
-                $(element).parent().parent().children('.relative').addClass('d-none');
-                // Mostrando a data
-                $(element).parent().parent().children('.date').removeClass('d-none');
+<script>
+    $(function() {
+        $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+            icons: {
+                time: 'far fa-clock',
+                date: 'far fa-calendar-alt',
+                up: 'fas fa-arrow-up',
+                down: 'fas fa-arrow-down',
+                previous: 'fas fa-chevron-left',
+                next: 'fas fa-chevron-right',
+                today: 'fas fa-calendar-check-o',
+                clear: 'fas fa-trash',
+                close: 'fas fa-times'
             }
-        }
-
-        // Sequência de mensagem
-        function new_row(count) {
-            var html = '<tr>';
-            html += '<td>';
-            html += '  <select class="form-control form-control-sm" tabindex="-1" aria-hidden="true" name="messages_id[]">';
-            html += '    <option value="" disabled selected hidden>Selecione ...</option>';
-            html += '    @foreach ($messages as $message)';
-            html += '      <option value="{{ $message->id }}">{{ $message->name }}</option>';
-            html += '    @endforeach';
-            html += '  </select>';
-            html += '</td>';
-            html += '<td>';
-            html +=
-                '  <select class="form-control form-control-sm" tabindex="-1" aria-hidden="true" onchange="changeShot(this)" name="shots[]">';
-            html += '    <option value="date">Data específica</option>';
-            html += '    <option value="relative">Relativo</option>';
-            html += '  </select>';
-            html += '</td>';
-            html += '<td class="relative d-none">';
-            html += '  <input type="text" size="1" class="form-control form-control-sm" name="quantities[]" value=""/>';
-            html += '</td>';
-            html += '<td class="relative d-none">';
-            html += '  <select class="form-control form-control-sm" tabindex="-1" aria-hidden="true" name="units[]">';
-            html += '    <option value="">...</option>';
-            html += '    <option value="minutes">Minuto(s)</option>';
-            html += '    <option value="hours">Hora(s)</option>';
-            html += '    <option value="days">Dia(s)</option>';
-            html += '  </select>';
-            html += '</td>';
-            html += '<td class="relative d-none">';
-            html += '  <select class="form-control form-control-sm" tabindex="-1" aria-hidden="true" name="triggers[]">';
-            html += '    <option value="">...</option>';
-            html += '    <option value="before">Antes</option>';
-            html += '    <option value="after">Depois</option>';
-            html += '  </select>';
-            html += '</td>';
-            html += '<td class="relative d-none">';
-            html += '  <select class="form-control form-control-sm" tabindex="-1" aria-hidden="true" name="moments[]">';
-            html += '    <option value="">...</option>';
-            html += '    <option value="start_campaign">Iniciar campanha</option>';
-            html += '    <option value="end_campaign">Finalizar campanha</option>';
-            html += '    <option value="start_monitoring">Iniciar monitoramento</option>';
-            html += '    <option value="stop_monitoring">Finalizar monitoramento</option>';
-            html += '  </select>';
-            html += '</td>';
-            html += '<td colspan="3" class="date">';
-            html += '  <div class="input-group date data-target-input="nearest">';
-            html +=
-                '    <input type="text" class="form-control form-control-sm datetimepicker-input scheduler' + count +
-                '" data-target=".scheduler' + count + '" name="scheduler_dates[]" autocomplete="off"/>';
-            html +=
-                '    <div class="input-group-append" data-target=".scheduler' + count + '" data-toggle="datetimepicker">';
-            html += '      <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>';
-            html += '    </div>';
-            html += '  </div>';
-            html += '</td>';
-            html += '<td class="date" colspan="1">';
-            html += '</td>';
-            html += '<td class="align-middle">';
-            html += '  <div class="btn-group btn-group-sm">';
-            html += '    <button type="button" name="add" class="btn btn-success add-item">+</button>';
-            html += '    <button type="button" name="remove" class="btn btn-danger remove-item">X</button>';
-            html += '  </div>';
-            html += '</td>';
-            html += '</tr>';
-            $('#messages_table > tbody').append(html);
-        }
-
-        $(document).on('click', '.add-item', function() {
-            var nLines = $('#messages_table > tbody')[0].children.length;
-            new_row(nLines);
-            $('.scheduler' + nLines).datetimepicker({
-                locale: 'pt-BR'
-            });
         });
-
-        $(document).on('click', '.remove-item', function() {
-            // remove a linha
-            // .parentElement => div
-            //  .parentElement => td
-            //   .parentElement => tr
-            this.parentElement.parentElement.parentElement.remove();
+    });
+    $(function() {
+        $('#start, #end').datetimepicker({
+            locale: 'pt-BR',
+            format: 'L',
         });
+    });
+    $(function() {
+        $('#start_monitoring, #stop_monitoring').datetimepicker({
+            locale: 'pt-BR',
+            format: 'L LTS',
+        });
+    });
 
-    </script>
+    function changeShot(element) {
+        // Limpa os campos do relative
+        $(element).parent().parent().find('td.relative>input').val('');
+        $(element).parent().parent().find('td.relative>select').val('');
+
+        // Limpando a data
+        $(element).parent().parent().find('td.date>div>input').val('');
+
+        if (element.value == 'relative') {
+            // Mostrando os relativos
+            $(element).parent().parent().children('.relative').removeClass('d-none');
+            // Escondendo a data
+            $(element).parent().parent().children('.date').addClass('d-none');
+        } else {
+            // Escondendo os relativos
+            $(element).parent().parent().children('.relative').addClass('d-none');
+            // Mostrando a data
+            $(element).parent().parent().children('.date').removeClass('d-none');
+        }
+    }
+
+    // Sequência de mensagem
+    function new_row(count) {
+        var html = '<tr>';
+        html += '<td>';
+        html += '  <select class="form-control form-control-sm" tabindex="-1" aria-hidden="true" name="messages_id[]">';
+        html += '    <option value="" disabled selected hidden>Selecione ...</option>';
+        html += '    @foreach ($messages as $message)';
+        html += '      <option value="{{ $message->id }}">{{ $message->name }}</option>';
+        html += '    @endforeach';
+        html += '  </select>';
+        html += '</td>';
+        html += '<td>';
+        html +=
+            '  <select class="form-control form-control-sm" tabindex="-1" aria-hidden="true" onchange="changeShot(this)" name="shots[]">';
+        html += '    <option value="date">Data específica</option>';
+        html += '    <option value="relative">Relativo</option>';
+        html += '  </select>';
+        html += '</td>';
+        html += '<td class="relative d-none">';
+        html += '  <input type="text" size="1" class="form-control form-control-sm" name="quantities[]" value=""/>';
+        html += '</td>';
+        html += '<td class="relative d-none">';
+        html += '  <select class="form-control form-control-sm" tabindex="-1" aria-hidden="true" name="units[]">';
+        html += '    <option value="">...</option>';
+        html += '    <option value="minutes">Minuto(s)</option>';
+        html += '    <option value="hours">Hora(s)</option>';
+        html += '    <option value="days">Dia(s)</option>';
+        html += '  </select>';
+        html += '</td>';
+        html += '<td class="relative d-none">';
+        html += '  <select class="form-control form-control-sm" tabindex="-1" aria-hidden="true" name="triggers[]">';
+        html += '    <option value="">...</option>';
+        html += '    <option value="before">Antes</option>';
+        html += '    <option value="after">Depois</option>';
+        html += '  </select>';
+        html += '</td>';
+        html += '<td class="relative d-none">';
+        html += '  <select class="form-control form-control-sm" tabindex="-1" aria-hidden="true" name="moments[]">';
+        html += '    <option value="">...</option>';
+        html += '    <option value="start_campaign">Iniciar campanha</option>';
+        html += '    <option value="end_campaign">Finalizar campanha</option>';
+        html += '    <option value="start_monitoring">Iniciar monitoramento</option>';
+        html += '    <option value="stop_monitoring">Finalizar monitoramento</option>';
+        html += '  </select>';
+        html += '</td>';
+        html += '<td colspan="3" class="date">';
+        html += '  <div class="input-group date data-target-input="nearest">';
+        html +=
+            '    <input type="text" class="form-control form-control-sm datetimepicker-input scheduler' + count +
+            '" data-target=".scheduler' + count + '" name="scheduler_dates[]" autocomplete="off"/>';
+        html +=
+            '    <div class="input-group-append" data-target=".scheduler' + count + '" data-toggle="datetimepicker">';
+        html += '      <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>';
+        html += '    </div>';
+        html += '  </div>';
+        html += '</td>';
+        html += '<td class="date" colspan="1">';
+        html += '</td>';
+        html += '<td class="align-middle">';
+        html += '  <div class="btn-group btn-group-sm">';
+        html += '    <button type="button" name="add" class="btn btn-success add-item">+</button>';
+        html += '    <button type="button" name="remove" class="btn btn-danger remove-item">X</button>';
+        html += '  </div>';
+        html += '</td>';
+        html += '</tr>';
+        $('#messages_table > tbody').append(html);
+    }
+
+    $(document).on('click', '.add-item', function() {
+        var nLines = $('#messages_table > tbody')[0].children.length;
+        new_row(nLines);
+        $('.scheduler' + nLines).datetimepicker({
+            locale: 'pt-BR'
+        });
+    });
+
+    $(document).on('click', '.remove-item', function() {
+        // remove a linha
+        // .parentElement => div
+        //  .parentElement => td
+        //   .parentElement => tr
+        this.parentElement.parentElement.parentElement.remove();
+    });
+
+</script>
 @endsection
