@@ -5,6 +5,8 @@ namespace App\Http\Resources;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+use function PHPUnit\Framework\isNull;
+
 class Group extends JsonResource
 {
     /**
@@ -24,10 +26,10 @@ class Group extends JsonResource
             'seats' => $this->seats,
             'occuped_seats' => $this->occuped_seats,
             'people_left' => $this->people_left,
-            'url' => $this->url,
+            'url' => isNull($this->url) ? '' : $this->url,
             'full_image_path' => $this->full_image_path,
-            'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('d/m/Y H:i:s'),
-            'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->updated_at)->format('d/m/Y H:i:s'),
+            'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->updated_at)->format('Y-m-d H:i:s'),
             'initial_members' => new InitialMemberCollection($this->initialMembers)
         ];
         // return parent::toArray($request);

@@ -19,8 +19,8 @@ class InitialMember extends JsonResource
             'id' => $this->id,
             'contact_name' => $this->contact_name,
             'administrator' => $this->administrator == 1,
-            'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('d/m/Y H:i:s'),
-            'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->updated_at)->format('d/m/Y H:i:s')
+            'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->updated_at)->format('Y-m-d H:i:s')
         ];
         // return parent::toArray($request);
     }

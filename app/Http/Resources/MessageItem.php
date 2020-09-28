@@ -21,8 +21,8 @@ class MessageItem extends JsonResource
             'value' => $this->value,
             'type_name' => $this->type_name,
             'whatsapp_markdown_to_html' => $this->whatsapp_markdown_to_html,
-            'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('d/m/Y H:i:s'),
-            'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->updated_at)->format('d/m/Y H:i:s')
+            'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->updated_at)->format('Y-m-d H:i:s')
         ];
         // return parent::toArray($request);
     }
