@@ -23,8 +23,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('campanhas', CampaignController::class)->names('api.campaigns')->parameters(['campanhas' => 'campaign']);
-Route::apiResource('grupos', WaGroupController::class)->names('api.groups')->parameters(['grupos' => 'group']);
-Route::apiResource('mensagens', MessageController::class)->names('api.messages')->parameters(['mensagens' => 'message']);
+Route::apiResource('campaigns', CampaignController::class)->names('api.campaigns');
+Route::apiResource('groups', WaGroupController::class)->names('api.groups');
+Route::apiResource('messages', MessageController::class)->names('api.messages');
 
-Route::apiResource('redirecionar', RedirectionController::class)->names('api.redirect')->parameters(['redirecionar' => 'redirect']);
+Route::apiResource('redirect', RedirectionController::class)->names('api.redirect');

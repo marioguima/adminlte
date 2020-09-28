@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Campaign;
-use App\Models\CampaignMessage;
 use App\Models\Message;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class CampaignController extends Controller
 {
@@ -76,6 +74,85 @@ class CampaignController extends Controller
         );
     }
 
+    private function relative_scheduler_date(Request $request,  $i)
+    {
+        $scheduler_date = null;
+        if ($request->moments[$i] == 'start_campaign') {
+            if ($request->triggers[$i] == 'after') {
+                if ($request->units[$i] == 'minutes') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start . ' 00:00:00')->addMinutes($request->quantities[$i])->format('Y-m-d H:i:s');
+                } elseif ($request->units[$i] == 'hours') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start . ' 00:00:00')->addHours($request->quantities[$i])->format('Y-m-d H:i:s');
+                } elseif ($request->units[$i] == 'days') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start . ' 00:00:00')->addDays($request->quantities[$i])->format('Y-m-d H:i:s');
+                }
+            } else {
+                if ($request->units[$i] == 'minutes') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start . ' 00:00:00')->subMinutes($request->quantities[$i])->format('Y-m-d H:i:s');
+                } elseif ($request->units[$i] == 'hours') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start . ' 00:00:00')->subHours($request->quantities[$i])->format('Y-m-d H:i:s');
+                } elseif ($request->units[$i] == 'days') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start . ' 00:00:00')->subDays($request->quantities[$i])->format('Y-m-d H:i:s');
+                }
+            }
+        } elseif ($request->moments[$i] == 'end_campaign') {
+            if ($request->triggers[$i] == 'after') {
+                if ($request->units[$i] == 'minutes') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->end . ' 00:00:00')->addMinutes($request->quantities[$i])->format('Y-m-d H:i:s');
+                } elseif ($request->units[$i] == 'hours') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->end . ' 00:00:00')->addHours($request->quantities[$i])->format('Y-m-d H:i:s');
+                } elseif ($request->units[$i] == 'days') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->end . ' 00:00:00')->addDays($request->quantities[$i])->format('Y-m-d H:i:s');
+                }
+            } else {
+                if ($request->units[$i] == 'minutes') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->end . ' 00:00:00')->subMinutes($request->quantities[$i])->format('Y-m-d H:i:s');
+                } elseif ($request->units[$i] == 'hours') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->end . ' 00:00:00')->subHours($request->quantities[$i])->format('Y-m-d H:i:s');
+                } elseif ($request->units[$i] == 'days') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->end . ' 00:00:00')->subDays($request->quantities[$i])->format('Y-m-d H:i:s');
+                }
+            }
+        } elseif ($request->moments[$i] == 'start_monitoring') {
+            if ($request->triggers[$i] == 'after') {
+                if ($request->units[$i] == 'minutes') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_monitoring)->addMinutes($request->quantities[$i])->format('Y-m-d H:i:s');
+                } elseif ($request->units[$i] == 'hours') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_monitoring)->addHours($request->quantities[$i])->format('Y-m-d H:i:s');
+                } elseif ($request->units[$i] == 'days') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_monitoring)->addDays($request->quantities[$i])->format('Y-m-d H:i:s');
+                }
+            } else {
+                if ($request->units[$i] == 'minutes') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_monitoring)->subMinutes($request->quantities[$i])->format('Y-m-d H:i:s');
+                } elseif ($request->units[$i] == 'hours') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_monitoring)->subHours($request->quantities[$i])->format('Y-m-d H:i:s');
+                } elseif ($request->units[$i] == 'days') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_monitoring)->subDays($request->quantities[$i])->format('Y-m-d H:i:s');
+                }
+            }
+        } elseif ($request->moments[$i] == 'stop_monitoring') {
+            if ($request->triggers[$i] == 'after') {
+                if ($request->units[$i] == 'minutes') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->addMinutes($request->quantities[$i])->format('Y-m-d H:i:s');
+                } elseif ($request->units[$i] == 'hours') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->addHours($request->quantities[$i])->format('Y-m-d H:i:s');
+                } elseif ($request->units[$i] == 'days') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->addDays($request->quantities[$i])->format('Y-m-d H:i:s');
+                }
+            } else {
+                if ($request->units[$i] == 'minutes') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->subMinutes($request->quantities[$i])->format('Y-m-d H:i:s');
+                } elseif ($request->units[$i] == 'hours') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->subHours($request->quantities[$i])->format('Y-m-d H:i:s');
+                } elseif ($request->units[$i] == 'days') {
+                    $scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->subDays($request->quantities[$i])->format('Y-m-d H:i:s');
+                }
+            }
+        }
+        return $scheduler_date;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -84,8 +161,6 @@ class CampaignController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-
         $campaign = new Campaign();
         $campaign->name = $request->name;
         $campaign->description = $request->description;
@@ -97,105 +172,24 @@ class CampaignController extends Controller
 
         // Salva sequência de mensagens
         for ($i = 0; $i < count($request->messages_id); $i++) {
-            $campaignMessage = Message::find($request->messages_id[$i]);
-            // $campaignMessage = new Message()->campaigns();
-            $campaignMessage->campaign_id = $campaign->id;
-            $campaignMessage->message_id = $request->messages_id[$i];
-
-            // 'immediate', 'date', 'relative'
-            $campaignMessage->shot = $request->shots[$i];
-
+            $scheduler_date = $request->scheduler_date[$i];
             if ($request->shots[$i] == 'date') {
-                $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i', $request->scheduler_dates[$i])->format('Y-m-d H:i');
+                $scheduler_date = Carbon::createFromFormat('d/m/Y H:i', $request->scheduler_dates[$i])->format('Y-m-d H:i');
             } elseif ($request->shots[$i] == 'relative') {
-                // Integer (quantidade)
-                $campaignMessage->quantity = $request->quantities[$i];
-
-                // 'minutes', 'hours', 'days'
-                $campaignMessage->unit = $request->units[$i];
-
-                // 'before', 'after'
-                $campaignMessage->trigger = $request->triggers[$i];
-
-                // 'start_campaign', 'end_campaign', 'start_monitoring', 'stop_monitoring'
-                $campaignMessage->moment = $request->moments[$i];
-
-                if ($campaignMessage->moment == 'start_campaign') {
-                    if ($campaignMessage->trigger == 'after') {
-                        if ($campaignMessage->unit == 'minutes') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start . ' 00:00:00')->addMinutes($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'hours') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start . ' 00:00:00')->addHours($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'days') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start . ' 00:00:00')->addDays($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        }
-                    } else {
-                        if ($campaignMessage->unit == 'minutes') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start . ' 00:00:00')->subMinutes($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'hours') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start . ' 00:00:00')->subHours($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'days') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start . ' 00:00:00')->subDays($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        }
-                    }
-                } elseif ($campaignMessage->moment == 'end_campaign') {
-                    if ($campaignMessage->trigger == 'after') {
-                        if ($campaignMessage->unit == 'minutes') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->end . ' 00:00:00')->addMinutes($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'hours') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->end . ' 00:00:00')->addHours($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'days') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->end . ' 00:00:00')->addDays($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        }
-                    } else {
-                        if ($campaignMessage->unit == 'minutes') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->end . ' 00:00:00')->subMinutes($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'hours') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->end . ' 00:00:00')->subHours($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'days') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->end . ' 00:00:00')->subDays($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        }
-                    }
-                } elseif ($campaignMessage->moment == 'start_monitoring') {
-                    if ($campaignMessage->trigger == 'after') {
-                        if ($campaignMessage->unit == 'minutes') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_monitoring)->addMinutes($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'hours') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_monitoring)->addHours($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'days') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_monitoring)->addDays($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        }
-                    } else {
-                        if ($campaignMessage->unit == 'minutes') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_monitoring)->subMinutes($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'hours') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_monitoring)->subHours($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'days') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_monitoring)->subDays($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        }
-                    }
-                } elseif ($campaignMessage->moment == 'stop_monitoring') {
-                    if ($campaignMessage->trigger == 'after') {
-                        if ($campaignMessage->unit == 'minutes') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->addMinutes($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'hours') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->addHours($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'days') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->addDays($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        }
-                    } else {
-                        if ($campaignMessage->unit == 'minutes') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->subMinutes($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'hours') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->subHours($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'days') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->subDays($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        }
-                    }
-                }
+                $scheduler_date = $this->relative_scheduler_date($request, $i);
             }
-            $campaignMessage->save();
-            unset($campaignMessage);
+
+            $campaign->messages()->attach(
+                $request->messages_id[$i],
+                array(
+                    'shot' => $request->shots[$i],
+                    'scheduler_date' => $scheduler_date,
+                    'quantity' => $request->quantities[$i],
+                    'unit' => $request->units[$i],
+                    'trigger' => $request->triggers[$i],
+                    'moment' => $request->moments[$i]
+                )
+            );
         }
         if ($campaign)
             return redirect()->route("campaigns.index")->with('success', 'Campanha cadastrada com sucesso!');
@@ -253,109 +247,29 @@ class CampaignController extends Controller
         $campaign->stop_monitoring = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->format('Y-m-d H:i:s');
         $campaign->save();
 
-        // Exclui a sequência de mensagens
-        CampaignMessage::where('campaign_id', $campaign->id)->delete();
+        // Exclui as linhas
+        $campaign->messages()->detach();
 
         // Salva sequência de mensagens
         for ($i = 0; $i < count($request->messages_id); $i++) {
-            $campaignMessage = new CampaignMessage();
-            $campaignMessage->campaign_id = $campaign->id;
-            $campaignMessage->message_id = $request->message_id[$i];
-
-            // 'immediate', 'date', 'relative'
-            $campaignMessage->shot = $request->shots[$i];
-
+            $scheduler_date = $request->scheduler_date[$i];
             if ($request->shots[$i] == 'date') {
-                $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i', $request->scheduler_dates[$i])->format('Y-m-d H:i');
+                $scheduler_date = Carbon::createFromFormat('d/m/Y H:i', $request->scheduler_dates[$i])->format('Y-m-d H:i');
             } elseif ($request->shots[$i] == 'relative') {
-                // Integer (quantidade)
-                $campaignMessage->quantity = $request->quantities[$i];
-
-                // 'minutes', 'hours', 'days'
-                $campaignMessage->unit = $request->units[$i];
-
-                // 'before', 'after'
-                $campaignMessage->trigger = $request->triggers[$i];
-
-                // 'start_campaign', 'end_campaign', 'start_monitoring', 'stop_monitoring'
-                $campaignMessage->moment = $request->moments[$i];
-
-                if ($campaignMessage->moment == 'start_campaign') {
-                    if ($campaignMessage->trigger == 'after') {
-                        if ($campaignMessage->unit == 'minutes') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start . ' 00:00:00')->addMinutes($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'hours') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start . ' 00:00:00')->addHours($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'days') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start . ' 00:00:00')->addDays($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        }
-                    } else {
-                        if ($campaignMessage->unit == 'minutes') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start . ' 00:00:00')->subMinutes($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'hours') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start . ' 00:00:00')->subHours($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'days') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start . ' 00:00:00')->subDays($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        }
-                    }
-                } elseif ($campaignMessage->moment == 'end_campaign') {
-                    if ($campaignMessage->trigger == 'after') {
-                        if ($campaignMessage->unit == 'minutes') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->end . ' 00:00:00')->addMinutes($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'hours') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->end . ' 00:00:00')->addHours($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'days') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->end . ' 00:00:00')->addDays($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        }
-                    } else {
-                        if ($campaignMessage->unit == 'minutes') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->end . ' 00:00:00')->subMinutes($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'hours') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->end . ' 00:00:00')->subHours($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'days') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->end . ' 00:00:00')->subDays($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        }
-                    }
-                } elseif ($campaignMessage->moment == 'start_monitoring') {
-                    if ($campaignMessage->trigger == 'after') {
-                        if ($campaignMessage->unit == 'minutes') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_monitoring)->addMinutes($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'hours') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_monitoring)->addHours($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'days') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_monitoring)->addDays($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        }
-                    } else {
-                        if ($campaignMessage->unit == 'minutes') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_monitoring)->subMinutes($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'hours') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_monitoring)->subHours($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'days') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->start_monitoring)->subDays($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        }
-                    }
-                } elseif ($campaignMessage->moment == 'stop_monitoring') {
-                    if ($campaignMessage->trigger == 'after') {
-                        if ($campaignMessage->unit == 'minutes') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->addMinutes($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'hours') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->addHours($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'days') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->addDays($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        }
-                    } else {
-                        if ($campaignMessage->unit == 'minutes') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->subMinutes($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'hours') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->subHours($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        } elseif ($campaignMessage->unit == 'days') {
-                            $campaignMessage->scheduler_date = Carbon::createFromFormat('d/m/Y H:i:s', $request->stop_monitoring)->subDays($campaignMessage->quantity)->format('Y-m-d H:i:s');
-                        }
-                    }
-                }
+                $scheduler_date = $this->relative_scheduler_date($request, $i);
             }
-            $campaignMessage->save();
-            unset($campaignMessage);
+
+            $campaign->messages()->attach(
+                $request->messages_id[$i],
+                array(
+                    'shot' => $request->shots[$i],
+                    'scheduler_date' => $scheduler_date,
+                    'quantity' => $request->quantities[$i],
+                    'unit' => $request->units[$i],
+                    'trigger' => $request->triggers[$i],
+                    'moment' => $request->moments[$i]
+                )
+            );
         }
 
         if ($campaign)

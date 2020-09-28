@@ -29,6 +29,15 @@ class Campaign extends Model
     // }
     public function messages()
     {
-        return $this->belongsToMany(Message::class);
+        return $this->belongsToMany(Message::class)->withTimestamps()
+            ->withPivot(
+                'shot',
+                'scheduler_date',
+                'quantity',
+                'unit',
+                'trigger',
+                'moment',
+            )
+            ->orderBy('scheduler_date');
     }
 }

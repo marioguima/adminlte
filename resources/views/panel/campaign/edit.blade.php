@@ -127,13 +127,14 @@
                                 <tbody>
                                     @foreach ($campaign->messages as $index => $message)
                                         <tr>
+                                            {{-- <td>{{$message}}</td> --}}
                                             <td>
                                                 <select class="form-control form-control-sm" tabindex="-1"
                                                     aria-hidden="true" name="messages_id[]">
                                                     <option value="" disabled hidden>Selecione ...</option>
                                                     @foreach ($messages as $item)
                                                         <option value="{{ $item->id }}"
-                                                            {{ $item->id == $message->messages_id ? 'selected' : '' }}>
+                                                            {{ $item->id == $message->pivot->message_id ? 'selected' : '' }}>
                                                             {{ $item->name }}</option>
                                                     @endforeach
                                                 </select>
@@ -146,13 +147,14 @@
                                                             class="btn btn-success add-item">+</button>
                                                     </div>
                                                     <div class="d-none">
-                                                        <input name="shots[]" value="{{ $message->shot }}" />
-                                                        <input name="quantities[]" value="{{ $message->quantity }}" />
-                                                        <input name="units[]" value="{{ $message->unit }}" />
-                                                        <input name="triggers[]" value="{{ $message->trigger }}" />
-                                                        <input name="moments[]" value="{{ $message->moment }}" />
+                                                        <input name="shots[]" value="{{ $message->pivot->shot }}" />
+                                                        <input name="quantities[]"
+                                                            value="{{ $message->pivot->quantity }}" />
+                                                        <input name="units[]" value="{{ $message->pivot->unit }}" />
+                                                        <input name="triggers[]" value="{{ $message->pivot->trigger }}" />
+                                                        <input name="moments[]" value="{{ $message->pivot->moment }}" />
                                                         <input name="scheduler_dates[]"
-                                                            value="{{ formatDateAndTime($message->scheduler_date, 'd/m/Y H:i') }}" />
+                                                            value="{{ formatDateAndTime($message->pivot->scheduler_date, 'd/m/Y H:i') }}" />
                                                     </div>
                                                 </td>
                                             @else
@@ -160,68 +162,79 @@
                                                     <select class="form-control form-control-sm" tabindex="-1"
                                                         aria-hidden="true" onchange="changeShot(this)" name="shots[]">
                                                         <option value="date"
-                                                            {{ $message->shot == 'date' ? 'selected' : '' }}>Data específica
+                                                            {{ $message->pivot->shot == 'date' ? 'selected' : '' }}>Data
+                                                            específica
                                                         </option>
                                                         <option value="relative"
-                                                            {{ $message->shot == 'relative' ? 'selected' : '' }}>Relativo
+                                                            {{ $message->pivot->shot == 'relative' ? 'selected' : '' }}>
+                                                            Relativo
                                                         </option>
                                                     </select>
                                                 </td>
-                                                <td class="relative {{ $message->shot == 'relative' ? '' : 'd-none' }}">
+                                                <td
+                                                    class="relative {{ $message->pivot->shot == 'relative' ? '' : 'd-none' }}">
                                                     <input type="text" size="1" class="form-control form-control-sm"
-                                                        name="quantities[]" value="{{ $message->quantity }}" />
+                                                        name="quantities[]" value="{{ $message->pivot->quantity }}" />
                                                 </td>
-                                                <td class="relative {{ $message->shot == 'relative' ? '' : 'd-none' }}">
+                                                <td
+                                                    class="relative {{ $message->pivot->shot == 'relative' ? '' : 'd-none' }}">
                                                     <select class="form-control form-control-sm" tabindex="-1"
                                                         aria-hidden="true" name="units[]">
                                                         <option value="">...</option>
                                                         <option value="minutes"
-                                                            {{ $message->unit == 'minutes' ? 'selected' : '' }}>Minuto(s)
+                                                            {{ $message->pivot->unit == 'minutes' ? 'selected' : '' }}>
+                                                            Minuto(s)
                                                         </option>
                                                         <option value="hours"
-                                                            {{ $message->unit == 'hours' ? 'selected' : '' }}>Hora(s)
+                                                            {{ $message->pivot->unit == 'hours' ? 'selected' : '' }}>Hora(s)
                                                         </option>
                                                         <option value="days"
-                                                            {{ $message->unit == 'days' ? 'selected' : '' }}>Dia(s)</option>
+                                                            {{ $message->pivot->unit == 'days' ? 'selected' : '' }}>Dia(s)
+                                                        </option>
                                                     </select>
                                                 </td>
-                                                <td class="relative {{ $message->shot == 'relative' ? '' : 'd-none' }}">
+                                                <td
+                                                    class="relative {{ $message->pivot->shot == 'relative' ? '' : 'd-none' }}">
                                                     <select class="form-control form-control-sm" tabindex="-1"
                                                         aria-hidden="true" name="triggers[]">
                                                         <option value="">...</option>
                                                         <option value="before"
-                                                            {{ $message->trigger == 'before' ? 'selected' : '' }}>Antes
+                                                            {{ $message->pivot->trigger == 'before' ? 'selected' : '' }}>
+                                                            Antes
                                                         </option>
                                                         <option value="after"
-                                                            {{ $message->trigger == 'after' ? 'selected' : '' }}>Depois
+                                                            {{ $message->pivot->trigger == 'after' ? 'selected' : '' }}>
+                                                            Depois
                                                         </option>
                                                     </select>
                                                 </td>
-                                                <td class="relative {{ $message->shot == 'relative' ? '' : 'd-none' }}">
+                                                <td
+                                                    class="relative {{ $message->pivot->shot == 'relative' ? '' : 'd-none' }}">
                                                     <select class="form-control form-control-sm" tabindex="-1"
                                                         aria-hidden="true" name="moments[]">
                                                         <option value="">...</option>
                                                         <option value="start_campaign"
-                                                            {{ $message->moment == 'start_campaign' ? 'selected' : '' }}>
+                                                            {{ $message->pivot->moment == 'start_campaign' ? 'selected' : '' }}>
                                                             Iniciar campanha</option>
                                                         <option value="end_campaign"
-                                                            {{ $message->moment == 'end_campaign' ? 'selected' : '' }}>
+                                                            {{ $message->pivot->moment == 'end_campaign' ? 'selected' : '' }}>
                                                             Finalizar campanha</option>
                                                         <option value="start_monitoring"
-                                                            {{ $message->moment == 'start_monitoring' ? 'selected' : '' }}>
+                                                            {{ $message->pivot->moment == 'start_monitoring' ? 'selected' : '' }}>
                                                             Iniciar monitoramento</option>
                                                         <option value="stop_monitoring"
-                                                            {{ $message->moment == 'stop_monitoring' ? 'selected' : '' }}>
+                                                            {{ $message->pivot->moment == 'stop_monitoring' ? 'selected' : '' }}>
                                                             Finalizar monitoramento</option>
                                                     </select>
                                                 </td>
-                                                <td colspan="3" class="date {{ $message->shot == 'date' ? '' : 'd-none' }}">
+                                                <td colspan="3"
+                                                    class="date {{ $message->pivot->shot == 'date' ? '' : 'd-none' }}">
                                                     <div class="input-group date data-target-input=" nearest">
                                                         <input type="text"
                                                             class="form-control form-control-sm datetimepicker-input scheduler' + count + '"
                                                             data-target=".scheduler' + count + '" name="scheduler_dates[]"
                                                             autocomplete="off"
-                                                            value="{{ formatDateAndTime($message->scheduler_date, 'd/m/Y H:i') }}" />
+                                                            value="{{ formatDateAndTime($message->pivot->scheduler_date, 'd/m/Y H:i') }}" />
                                                         <div class="input-group-append"
                                                             data-target=".scheduler' + count + '"
                                                             data-toggle="datetimepicker">
@@ -231,7 +244,8 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td class="date {{ $message->shot == 'date' ? '' : 'd-none' }}" colspan="1">
+                                                <td class="date {{ $message->pivot->shot == 'date' ? '' : 'd-none' }}"
+                                                    colspan="1">
                                                 </td>
                                                 <td class="align-middle">
                                                     <div class="btn-group btn-group-sm">
