@@ -17,7 +17,7 @@ class Segmentation extends JsonResource
     {
         return [
             'id' => $this->id,
-            'campaigns_id' => $this->campaigns_id,
+            'campaign_id' => $this->campaign_id,
             'name' => $this->name,
             'description' => $this->description,
             'created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $this->created_at)->format('Y-m-d H:i:s'),

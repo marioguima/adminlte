@@ -16,7 +16,7 @@ class WaGroupInitialMemberSeeder extends Seeder
     public function run()
     {
         $waGroupInitialMember = new WaGroupInitialMember();
-        $waGroupInitialMember->wa_groups_id = DB::table('wa_groups')->get(['id'])->last()->id;
+        $waGroupInitialMember->wa_group_id = DB::table('wa_groups')->get(['id'])->last()->id;
         $waGroupInitialMember->contact_name = 'Mário Guimarães Beta';
         $waGroupInitialMember->administrator = 1;
         $waGroupInitialMember->save();

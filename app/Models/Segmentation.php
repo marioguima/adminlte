@@ -10,18 +10,18 @@ class Segmentation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'campaigns_id',
+        'campaign_id',
         'name',
         'description',
     ];
 
     public function campaign()
     {
-        return $this->belongsTo(Campaign::class, 'campaigns_id', 'id');
+        return $this->belongsTo(Campaign::class);
     }
 
     public function groups()
     {
-        return $this->hasMany(WaGroup::class, 'segmentations_id', 'id');
+        return $this->hasMany(WaGroup::class);
     }
 }

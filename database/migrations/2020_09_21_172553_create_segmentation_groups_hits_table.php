@@ -15,10 +15,10 @@ class CreateSegmentationGroupsHitsTable extends Migration
     {
         Schema::create('segmentation_groups_hits', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('segmentations_id')
+            $table->foreignId('segmentation_id')
                 ->constrained()
                 ->onDelete('cascade');
-            $table->foreignId('wa_groups_id')
+            $table->foreignId('wa_group_id')
                 ->comment('Caso não tenha vaga disponível em nenhum grupo só terá hit na segmentação')
                 ->nullable()
                 ->constrained()

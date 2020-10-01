@@ -15,7 +15,7 @@ class CreateWaGroupInitialMembersTable extends Migration
     {
         Schema::create('wa_group_initial_members', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('wa_groups_id')->constrained()->onDelete('cascade');
+            $table->foreignId('wa_group_id')->constrained()->onDelete('cascade');
             $table->string('contact_name');
             $table->boolean('administrator');
             $table->timestamps();

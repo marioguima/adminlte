@@ -70,7 +70,7 @@ class MessageController extends Controller
         // Salva os itens da mensagem
         for ($i = 0; $i < count($request->item_values); $i++) {
             $messageItem = new MessageItem();
-            $messageItem->messages_id = $message->id;
+            $messageItem->message_id = $message->id;
             $messageItem->type = $request->item_types[$i];
             $messageItem->value = $request->item_values[$i];
             $messageItem->save();
@@ -126,12 +126,12 @@ class MessageController extends Controller
         $message->save();
 
         // Exclui todos os itens
-        MessageItem::where('messages_id', $message->id)->delete();
+        MessageItem::where('message_id', $message->id)->delete();
 
         // Salva os itens da mensagem
         for ($i = 0; $i < count($request->item_values); $i++) {
             $messageItem = new MessageItem();
-            $messageItem->messages_id = $message->id;
+            $messageItem->message_id = $message->id;
             $messageItem->type = $request->item_types[$i];
             $messageItem->value = $request->item_values[$i];
             $messageItem->save();

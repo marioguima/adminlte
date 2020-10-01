@@ -41,7 +41,7 @@ class RedirectionController extends Controller
     {
         // DB::enableQueryLog();
         // $segmentation = Segmentation::findOrFail($id);
-        $group = WaGroup::where('segmentations_id', $id)
+        $group = WaGroup::where('segmentation_id', $id)
             ->whereRaw('seats > occuped_seats')
             ->get()
             ->first();

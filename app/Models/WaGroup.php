@@ -14,7 +14,7 @@ class WaGroup extends Model
     ];
 
     protected $fillable = [
-        'segmentations_id',
+        'segmentation_id',
         'name',
         'image_path',
         'description',
@@ -29,12 +29,12 @@ class WaGroup extends Model
 
     public function segmentation()
     {
-        return $this->belongsTo(Segmentation::class, 'segmentations_id', 'id');
+        return $this->belongsTo(Segmentation::class);
     }
 
     public function initialMembers()
     {
-        return $this->hasMany(WaGroupInitialMember::class, 'wa_groups_id', 'id');
+        return $this->hasMany(WaGroupInitialMember::class);
     }
 
     public function getFullImagePathAttribute()

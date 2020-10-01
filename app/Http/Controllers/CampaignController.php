@@ -7,6 +7,7 @@ use App\Models\Campaign;
 use App\Models\Message;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CampaignController extends Controller
 {
@@ -162,6 +163,7 @@ class CampaignController extends Controller
     public function store(Request $request)
     {
         $campaign = new Campaign();
+        $campaign->user_id = Auth::id();
         $campaign->name = $request->name;
         $campaign->description = $request->description;
         $campaign->start = Carbon::createFromFormat('d/m/Y', $request->start)->format('Y-m-d');
@@ -171,7 +173,7 @@ class CampaignController extends Controller
         $campaign->save();
 
         // Salva sequência de mensagens
-        for ($i = 0; $i < count($request->messages_id); $i++) {
+        for ($i = 0; $i < count($request->message_ids); $i++) {
             $scheduler_date = $request->scheduler_date[$i];
             if ($request->shots[$i] == 'date') {
                 $scheduler_date = Carbon::createFromFormat('d/m/Y H:i', $request->scheduler_dates[$i])->format('Y-m-d H:i');
@@ -180,7 +182,7 @@ class CampaignController extends Controller
             }
 
             $campaign->messages()->attach(
-                $request->messages_id[$i],
+                $request->message_ids[$i],
                 array(
                     'shot' => $request->shots[$i],
                     'scheduler_date' => $scheduler_date,
@@ -238,7 +240,6 @@ class CampaignController extends Controller
      */
     public function update(Request $request, Campaign $campaign)
     {
-        // dd($request->all());
         $campaign->name = $request->name;
         $campaign->description = $request->description;
         $campaign->start = Carbon::createFromFormat('d/m/Y', $request->start)->format('Y-m-d');
@@ -251,7 +252,7 @@ class CampaignController extends Controller
         $campaign->messages()->detach();
 
         // Salva sequência de mensagens
-        for ($i = 0; $i < count($request->messages_id); $i++) {
+        for ($i = 0; $i < count($request->message_ids); $i++) {
             $scheduler_date = $request->scheduler_date[$i];
             if ($request->shots[$i] == 'date') {
                 $scheduler_date = Carbon::createFromFormat('d/m/Y H:i', $request->scheduler_dates[$i])->format('Y-m-d H:i');
@@ -260,7 +261,7 @@ class CampaignController extends Controller
             }
 
             $campaign->messages()->attach(
-                $request->messages_id[$i],
+                $request->message_ids[$i],
                 array(
                     'shot' => $request->shots[$i],
                     'scheduler_date' => $scheduler_date,

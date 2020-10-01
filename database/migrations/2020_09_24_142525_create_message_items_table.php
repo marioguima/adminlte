@@ -15,7 +15,7 @@ class CreateMessageItemsTable extends Migration
     {
         Schema::create('message_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('messages_id')->constrained()->onDelete('cascade');
+            $table->foreignId('message_id')->constrained()->onDelete('cascade');
             $table->enum('type', ['text', 'image', 'document', 'video', 'audio', 'contact']);
             $table->text('value');
             $table->timestamps();

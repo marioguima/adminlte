@@ -15,11 +15,11 @@ class Message extends Model
 
     public function items()
     {
-        return $this->hasMany(MessageItem::class,  'messages_id', 'id');
+        return $this->hasMany(MessageItem::class);
     }
 
     public function campaigns()
     {
-        return $this->belongsToMany(Campaign::class, 'campaign_messages', 'messages_id', 'campaigns_id');
+        return $this->belongsToMany(Campaign::class, 'campaign_messages', 'message_id', 'campaign_id');
     }
 }

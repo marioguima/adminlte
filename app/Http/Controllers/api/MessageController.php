@@ -42,7 +42,7 @@ class MessageController extends Controller
             ->select(['id', 'name'])
             ->with([
                 'campaigns',
-                // 'items:id,messages_id,type,value,created_at,updated_at',
+                // 'items:id,message_id,type,value,created_at,updated_at',
             ])
             ->get()];
         // para depurar uma query basta trocar get() por toSql()

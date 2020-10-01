@@ -16,7 +16,7 @@ class WaGroupSeeder extends Seeder
     public function run()
     {
         $waGroup = new WaGroup();
-        $waGroup->segmentations_id = DB::table('segmentations')->get(['id'])->last()->id;
+        $waGroup->segmentation_id = DB::table('segmentations')->get(['id'])->last()->id;
         $waGroup->name = 'Riqueza Digital 28/09 G1';
         $waGroup->description = '🟡 ATENÇÃO AQUI. Esse Grupo é Para Você Receber os Avisos e Links das Aulas da Semana da Riqueza Digital
 

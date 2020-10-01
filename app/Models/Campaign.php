@@ -18,15 +18,16 @@ class Campaign extends Model
         'description',
     ];
 
-    public function segmentations()
+    public function user()
     {
-        return $this->hasMany(Segmentation::class, 'campaigns_id', 'id');
+        return $this->belongsTo(User::class);
     }
 
-    // public function messages()
-    // {
-    //     return $this->hasMany(CampaignMessage::class, 'campaigns_id', 'id');
-    // }
+    public function segmentations()
+    {
+        return $this->hasMany(Segmentation::class);
+    }
+
     public function messages()
     {
         return $this->belongsToMany(Message::class)->withTimestamps()

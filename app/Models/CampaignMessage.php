@@ -10,8 +10,9 @@ class naousar_CampaignMessage extends Model
     use HasFactory;
 
     protected $fillable = [
-        'campaigns_id',
-        'messages_id',
+        'id',
+        'campaign_id',
+        'message_id',
         'shot',
         'scheduler_date',
         'quantity',
@@ -22,6 +23,6 @@ class naousar_CampaignMessage extends Model
 
     // public function messages()
     // {
-    //     return $this->hasMany(Message::class,  'messages_id', 'id');
+    //     return $this->hasMany(Message::class,  'message_id', 'id');
     // }
 }

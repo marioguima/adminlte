@@ -49,7 +49,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Campanha</label>
                                     <select class="col-sm-10 form-control" tabindex="-1" aria-hidden="true"
-                                        name="campaigns_id" id="campaigns_select" required>
+                                        name="campaign_id" id="campaign_select" required>
                                         <option value="" disabled selected></option>
                                         @foreach ($campaigns['data'] as $campaign)
                                             <option value="{{ $campaign->id }}">
@@ -64,7 +64,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Segmentação</label>
                                     <select class="col-sm-10 form-control" tabindex="-1" aria-hidden="true"
-                                        name="segmentations_id" id="segmentations_select" required>
+                                        name="segmentation_id" id="segmentation_select" required>
                                         <option value="" disabled selected></option>
                                     </select>
                                 </div>
@@ -189,23 +189,21 @@
 
             $.fn.select2.defaults.set("language", "pt-br");
 
-            $('#campaigns_select').select2({
+            $('#campaign_select').select2({
                 placeholder: 'Selecione a campanha',
             });
 
             // buscar as segmentação da companha
-            $('#campaigns_select').change(function() {
+            $('#campaign_select').change(function() {
                 // Campaign id
                 var id = $(this).val();
 
                 // limpar a lista de segmentações
-                $("#segmentations_select").find('option').remove();
+                $("#segmentation_select").find('option').remove();
                 // adiciona o item em branco
-                $("#segmentations_select").append('<option value="" disabled selected></option>');
+                $("#segmentation_select").append('<option value="" disabled selected></option>');
 
                 var _token = $('input[name="_token"]').val();
-
-                // var old_segmentation = {{ old('segmentations_id') ? old('segmentations_id') : 0 }};
 
                 // AJAXA request (recuperar as segmentações da campanha)
                 $.ajax({
@@ -232,14 +230,14 @@
 
                                 var option = "<option value='" + id + "'>" + name + "</option>";
 
-                                $("#segmentations_select").append(option);
+                                $("#segmentation_select").append(option);
                             }
                         }
                     }
                 });
             });
 
-            $('#segmentations_select').select2({
+            $('#segmentation_select').select2({
                 placeholder: 'Selecione a segmentação',
                 language: {
                     noResults: function() {

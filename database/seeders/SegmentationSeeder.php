@@ -16,7 +16,7 @@ class SegmentationSeeder extends Seeder
     public function run()
     {
         $segmentation = new Segmentation();
-        $segmentation->campaigns_id = DB::table('campaigns')->get(['id'])->last()->id;
+        $segmentation->campaign_id = DB::table('campaigns')->get(['id'])->last()->id;
         $segmentation->name = 'Público 1';
         $segmentation->description = 'Público 1';
         $segmentation->save();

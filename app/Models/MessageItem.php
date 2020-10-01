@@ -79,4 +79,5 @@ class MessageItem extends Model
 
         return $result;
     }
+    
 }

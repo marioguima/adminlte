@@ -10,8 +10,8 @@ class SegmentationGroupsHit extends Model
     use HasFactory;
 
     protected $fillable = [
-        'segmentations_id',
-        'wa_groups_id',
+        'segmentation_id',
+        'wa_group_id',
         'ip',
         'iso_code',
         'country',

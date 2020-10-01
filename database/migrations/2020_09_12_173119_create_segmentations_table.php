@@ -15,7 +15,7 @@ class CreateSegmentationsTable extends Migration
     {
         Schema::create('segmentations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('campaigns_id')->constrained('campaigns');
+            $table->foreignId('campaign_id')->constrained('campaigns');
             $table->string('name');
             $table->text('description')->nullable();
             $table->timestamps();

@@ -15,7 +15,7 @@ class CreateWaGroupsTable extends Migration
     {
         Schema::create('wa_groups', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('segmentations_id')->constrained();
+            $table->foreignId('segmentation_id')->constrained();
             $table->string('name', 25);
             $table->string('image_path')->nullable();
             $table->text('description')->nullable();

@@ -124,7 +124,7 @@
                                     <tr>
                                         <td>
                                             <select class="form-control form-control-sm" tabindex="-1" aria-hidden="true"
-                                                name="messages_id[]">
+                                                name="message_ids[]">
                                                 <option value="" disabled selected hidden>Selecione ...</option>
                                                 @foreach ($messages as $message)
                                                     <option value="{{ $message->id }}">{{ $message->name }}</option>
@@ -228,7 +228,7 @@
         function new_row(count) {
             var html = '<tr>';
             html += '<td>';
-            html += '  <select class="form-control form-control-sm" tabindex="-1" aria-hidden="true" name="messages_id[]">';
+            html += '  <select class="form-control form-control-sm" tabindex="-1" aria-hidden="true" name="message_ids[]">';
             html += '    <option value="" disabled selected hidden>Selecione ...</option>';
             html += '    @foreach ($messages as $message)';
             html += '      <option value="{{ $message->id }}">{{ $message->name }}</option>';

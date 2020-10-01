@@ -44,12 +44,12 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Campanha</label>
                                     <select class="form-control col-sm-10" tabindex="-1" aria-hidden="true"
-                                        name="campaigns_id" id="campaigns_id" required
+                                        name="campaign_id" id="campaign_id" required
                                         data-placeholder="Selecione uma campanha ...">
                                         <option value="" disabled selected></option>
                                         @foreach ($campaigns as $campaign)
                                             <option value="{{ $campaign->id }}"
-                                                {{ $segmentation->campaigns_id == $campaign->id ? 'selected' : '' }}>
+                                                {{ $segmentation->campaign_id == $campaign->id ? 'selected' : '' }}>
                                                 {{ $campaign->name }}</option>
                                         @endforeach
                                     </select>
@@ -96,7 +96,7 @@
     <script>
         // In your Javascript (external .js resource or <script> tag)
         $(document).ready(function() {
-            $('#campaigns_id').select2({
+            $('#campaign_id').select2({
                 // placeholder: 'Selecione a campanha',
                 // width: '100%'
             });

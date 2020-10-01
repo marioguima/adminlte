@@ -67,7 +67,7 @@ class WaGroupController extends Controller
     public function store(Request $request)
     {
         // $request->validate([
-        //     'segmentations_id' => 'required',
+        //     'segmentation_id' => 'required',
         //     'name' => 'required|min:3|max:25',
         //     'url' => 'required|url',
         //     'description' => 'nullable',
@@ -79,7 +79,7 @@ class WaGroupController extends Controller
 
         // Salva o grupo
         $waGroup = new WaGroup();
-        $waGroup->segmentations_id = $request->segmentations_id;
+        $waGroup->segmentation_id = $request->segmentation_id;
         $waGroup->name = $request->name;
         $waGroup->description = $request->description;
         $waGroup->edit_data = $request->edit_data;
@@ -97,7 +97,7 @@ class WaGroupController extends Controller
         // Salva os membros iniciais
         for ($i = 0; $i < count($request->member_names); $i++) {
             $WaGroupInitialMember = new WaGroupInitialMember();
-            $WaGroupInitialMember->wa_groups_id = $waGroup->id;
+            $WaGroupInitialMember->wa_group_id = $waGroup->id;
             $WaGroupInitialMember->contact_name = $request->member_names[$i];
             $WaGroupInitialMember->administrator = $request->member_administrators[$i];
             $WaGroupInitialMember->save();
@@ -158,7 +158,7 @@ class WaGroupController extends Controller
     public function update(Request $request, WaGroup $group)
     {
         $group->name = $request->name;
-        $group->segmentations_id = $request->segmentations_id;
+        $group->segmentation_id = $request->segmentation_id;
         $group->name = $request->name;
         $group->description = $request->description;
         $group->edit_data = $request->edit_data;
@@ -179,12 +179,12 @@ class WaGroupController extends Controller
         $group->save();
 
         // Exclui todos os membros iniciais
-        WaGroupInitialMember::where('wa_groups_id', $group->id)->delete();
+        WaGroupInitialMember::where('wa_group_id', $group->id)->delete();
 
         // Salva os membros iniciais do grupo
         for ($i = 0; $i < count($request->member_names); $i++) {
             $initialMember = new WaGroupInitialMember();
-            $initialMember->wa_groups_id = $group->id;
+            $initialMember->wa_group_id = $group->id;
             $initialMember->contact_name = $request->member_names[$i];
             $initialMember->administrator = $request->member_administrators[$i];
             $initialMember->save();
@@ -213,12 +213,12 @@ class WaGroupController extends Controller
         return redirect()->route('groups.index');
     }
 
-    public function getSegmentations($campaigns_id = 0)
+    public function getSegmentations($campaign_id = 0)
     {
         $segmentations['data'] =
             Segmentation::orderby('name', 'asc')
             ->select('id', 'name')
-            ->where('campaigns_id', $campaigns_id)
+            ->where('campaign_id', $campaign_id)
             ->get();
         return response()->json($segmentations);
     }

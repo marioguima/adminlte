@@ -114,7 +114,7 @@ class SegmentationController extends Controller
      */
     public function update(Request $request, Segmentation $segmentation)
     {
-        $segmentation->campaigns_id = $request->campaigns_id;
+        $segmentation->campaign_id = $request->campaign_id;
         $segmentation->name = $request->name;
         $segmentation->description = $request->description;
         $segmentation->save();

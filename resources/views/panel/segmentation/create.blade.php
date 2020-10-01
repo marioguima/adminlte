@@ -42,7 +42,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">Campanha</label>
                                     <select class="form-control col-sm-10" tabindex="-1" aria-hidden="true"
-                                        name="campaigns_id" id="campaigns_id" required>
+                                        name="campaign_id" id="campaign_id" required>
                                         <option value="" disabled selected></option>
                                         @foreach ($campaigns as $campaign)
                                             <option value="{{ $campaign->id }}">{{ $campaign->name }}</option>
@@ -91,7 +91,7 @@
     <script>
         // In your Javascript (external .js resource or <script> tag)
         $(document).ready(function() {
-            $('#campaigns_id').select2({
+            $('#campaign_id').select2({
                 placeholder: 'Selecione a campanha'
             });
         });
