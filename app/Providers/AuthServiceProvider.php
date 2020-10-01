@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Campaign;
+use App\Models\User;
+use App\Policies\CampaignPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -14,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Model' => 'App\Policies\ModelPolicy',
+        Campaign::class => CampaignPolicy::class,
     ];
 
     /**
@@ -25,6 +29,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('udpate-campaign', [CampaignPolicy::class, 'update']);
     }
 }

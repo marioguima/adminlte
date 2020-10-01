@@ -8,6 +8,7 @@ use App\Models\Message;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class CampaignController extends Controller
 {
@@ -240,6 +241,8 @@ class CampaignController extends Controller
      */
     public function update(Request $request, Campaign $campaign)
     {
+        Gate::authorize('udpate-campaign', $campaign);
+
         $campaign->name = $request->name;
         $campaign->description = $request->description;
         $campaign->start = Carbon::createFromFormat('d/m/Y', $request->start)->format('Y-m-d');
