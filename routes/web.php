@@ -24,3 +24,4 @@ Auth::routes();
 
 Route::get('/testes/mensagens/{mensagem}', [TestesController::class, 'mensagens']);
 Route::get('/testes/campanhas/{campanha}', [TestesController::class, 'campanhas']);
+Route::get('/testes/permissoes', [TestesController::class, 'rolesPermissions']);

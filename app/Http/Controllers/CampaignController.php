@@ -241,7 +241,7 @@ class CampaignController extends Controller
      */
     public function update(Request $request, Campaign $campaign)
     {
-        Gate::authorize('udpate-campaign', $campaign);
+        $this->authorize('update', $campaign);
 
         $campaign->name = $request->name;
         $campaign->description = $request->description;

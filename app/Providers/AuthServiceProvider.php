@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Campaign;
+use App\Models\Permission;
 use App\Models\User;
 use App\Policies\CampaignPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -29,6 +30,22 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('udpate-campaign', [CampaignPolicy::class, 'update']);
+        // Gate::define('update-campaign', function (User $user, Campaign $campaign) {
+        //     return $user->id === $campaign->user_id;
+        // });
+
+        $permissions = Permission::with('roles')->get();
+        foreach ($permissions as $permission) {
+            // dd($permission);
+            Gate::define($permission->name, function (User $user) use ($permission){
+                $permissionParam = Permission::findOrFail($permission->id);
+                return $user->hasPermission($permissionParam);
+            });
+        }
+
+        Gate::before(function(User $user, $ability) {
+            if ( $user->hasAnyRoles('adm') )
+                return true;
+        });
     }
 }
