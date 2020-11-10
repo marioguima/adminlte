@@ -237,11 +237,6 @@ return [
             'topnav' => false,
         ],
         [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
-        [
             'text'        => 'panel',
             'url'         => 'painel',
             'icon'        => 'fas fa-fw fa-tachometer-alt',
@@ -251,21 +246,44 @@ return [
             'text' => 'campaigns',
             'url'  => 'painel/campanhas',
             'icon' => 'fas fa-fw fa-funnel-dollar',
+            'can'  => 'index-campaign',
         ],
         [
             'text' => 'segmentations',
             'url'  => 'painel/segmentacoes',
             'icon' => 'fas fa-fw fa-users-cog',
+            'can'  => 'index-segmentation',
         ],
         [
             'text' => 'groups',
             'url'  => 'painel/grupos',
             'icon' => 'fas fa-fw fa-user-friends',
+            'can'  => 'index-group',
         ],
         [
             'text' => 'messages',
             'url'  => 'painel/mensagens',
             'icon' => 'fas fa-fw fa-comments',
+            'can'  => 'index-message',
+        ],
+        ['header' => 'Controle de Acesso'],
+        [
+            'text' => 'users',
+            'url'  => 'painel/usuarios',
+            'icon' => 'fas fa-fw fa-funnel-dollar',
+            'can'  => 'index-user',
+        ],
+        [
+            'text' => 'roles',
+            'url'  => 'painel/funcoes',
+            'icon' => 'fas fa-fw fa-funnel-dollar',
+            'can'  => 'index-role',
+        ],
+        [
+            'text' => 'permissions',
+            'url'  => 'painel/permissoes',
+            'icon' => 'fas fa-fw fa-users-cog',
+            'can'  => 'index-permission',
         ],
     ],
 

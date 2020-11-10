@@ -66,6 +66,9 @@
                                         <ul style="padding-left: 15px;">
                                             @foreach ($segmentation->groups as $item)
                                                 <li>{{ $item->name }}</li>
+                                                {{-- <li><a
+                                                        href="{{ route('groups.index', ['group' => $item->id]) }}">{{ $item->name }}</a>
+                                                </li> --}}
                                             @endforeach
                                         </ul>
                                     </td>
